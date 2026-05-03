@@ -1,4 +1,4 @@
-# database.py - Complete database with security features and patient anonymization
+# database.py - Complete database with patient anonymization
 import sqlite3
 from datetime import datetime, timedelta
 import bcrypt
@@ -15,14 +15,12 @@ class Database:
         conn = self.get_connection()
         cursor = conn.cursor()
         
-        # Patients table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS patients (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 patient_id TEXT UNIQUE NOT NULL,
                 full_name TEXT NOT NULL,
                 phone_number TEXT NOT NULL,
-                language TEXT DEFAULT 'English',
                 location TEXT,
                 arv_regimen TEXT,
                 medication_time TEXT,
@@ -31,7 +29,6 @@ class Database:
             )
         ''')
         
-        # Messages table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS messages (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +46,6 @@ class Database:
             )
         ''')
         
-        # Providers table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS providers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -62,7 +58,6 @@ class Database:
             )
         ''')
         
-        # Adherence table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS adherence (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,7 +69,6 @@ class Database:
             )
         ''')
         
-        # Villages table for GIS
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS villages (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -84,7 +78,6 @@ class Database:
             )
         ''')
         
-        # Hospitals table for GIS
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS hospitals (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -99,7 +92,6 @@ class Database:
             )
         ''')
         
-        # Pre-calculated distances
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS hospital_distances (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -111,11 +103,6 @@ class Database:
             )
         ''')
         
-        # ============================================================
-        # SECURITY TABLES
-        # ============================================================
-        
-        # Failed logins table for lockout
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS failed_logins (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -126,7 +113,6 @@ class Database:
             )
         ''')
         
-        # Audit logs table
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS audit_logs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -139,11 +125,6 @@ class Database:
             )
         ''')
         
-        # ============================================================
-        # INSERT SAMPLE DATA
-        # ============================================================
-        
-        # Insert villages
         cursor.execute("SELECT COUNT(*) FROM villages")
         if cursor.fetchone()[0] == 0:
             villages = [
@@ -155,7 +136,6 @@ class Database:
             ]
             cursor.executemany("INSERT INTO villages (name, latitude, longitude) VALUES (?, ?, ?)", villages)
         
-        # Insert hospitals
         cursor.execute("SELECT COUNT(*) FROM hospitals")
         if cursor.fetchone()[0] == 0:
             hospitals = [
@@ -167,7 +147,6 @@ class Database:
             ]
             cursor.executemany("INSERT INTO hospitals (name, village, latitude, longitude, level, phone, address, opening_hours) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", hospitals)
         
-        # Insert distances
         cursor.execute("SELECT COUNT(*) FROM hospital_distances")
         if cursor.fetchone()[0] == 0:
             distances = [
@@ -179,40 +158,35 @@ class Database:
             ]
             cursor.executemany("INSERT INTO hospital_distances (village_name, hospital_name, distance_km, travel_time_minutes, directions) VALUES (?, ?, ?, ?, ?)", distances)
         
-        # Insert doctor with bcrypt hashed password
         cursor.execute("SELECT COUNT(*) FROM providers")
         if cursor.fetchone()[0] == 0:
             hashed_password = bcrypt.hashpw("doctor123".encode(), bcrypt.gensalt()).decode('utf-8')
             cursor.execute("INSERT INTO providers (username, password, full_name, role, hospital) VALUES (?, ?, ?, ?, ?)",
                          ("dr.mwangi", hashed_password, "Dr. James Mwangi", "doctor", "Siaya County Hospital"))
         
-        # Insert sample patients
         cursor.execute("SELECT COUNT(*) FROM patients")
         if cursor.fetchone()[0] == 0:
             cursor.execute('''
-                INSERT INTO patients (patient_id, full_name, phone_number, language, location, arv_regimen, medication_time, registration_date)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', ("HIV001", "Mary Atieno", "+254712345678", "Kiswahili", "Siaya Town", "TLD", "20:00", datetime.now().isoformat()))
+                INSERT INTO patients (patient_id, full_name, phone_number, location, arv_regimen, medication_time, registration_date)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', ("HIV001", "Mary Atieno", "+254712345678", "Siaya Town", "TLD", "20:00", datetime.now().isoformat()))
             
             cursor.execute('''
-                INSERT INTO patients (patient_id, full_name, phone_number, language, location, arv_regimen, medication_time, registration_date)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', ("HIV002", "John Omondi", "+254723456789", "English", "Bondo", "TLD", "20:00", datetime.now().isoformat()))
+                INSERT INTO patients (patient_id, full_name, phone_number, location, arv_regimen, medication_time, registration_date)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', ("HIV002", "John Omondi", "+254723456789", "Bondo", "TLD", "20:00", datetime.now().isoformat()))
         
         conn.commit()
         conn.close()
     
-    # ============================================================
-    # SECURITY METHODS
-    # ============================================================
+    def get_connection(self):
+        return sqlite3.connect(self.db_path)
     
     def record_failed_login(self, username=None, phone_number=None, ip_address=None):
         conn = self.get_connection()
         cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO failed_logins (username, phone_number, attempt_time, ip_address)
-            VALUES (?, ?, ?, ?)
-        ''', (username, phone_number, datetime.now().isoformat(), ip_address))
+        cursor.execute('INSERT INTO failed_logins (username, phone_number, attempt_time, ip_address) VALUES (?, ?, ?, ?)',
+                      (username, phone_number, datetime.now().isoformat(), ip_address))
         conn.commit()
         conn.close()
 
@@ -222,15 +196,9 @@ class Database:
         time_threshold = (datetime.now() - timedelta(minutes=minutes)).isoformat()
         
         if username:
-            cursor.execute('''
-                SELECT COUNT(*) FROM failed_logins 
-                WHERE username = ? AND attempt_time > ?
-            ''', (username, time_threshold))
+            cursor.execute('SELECT COUNT(*) FROM failed_logins WHERE username = ? AND attempt_time > ?', (username, time_threshold))
         elif phone_number:
-            cursor.execute('''
-                SELECT COUNT(*) FROM failed_logins 
-                WHERE phone_number = ? AND attempt_time > ?
-            ''', (phone_number, time_threshold))
+            cursor.execute('SELECT COUNT(*) FROM failed_logins WHERE phone_number = ? AND attempt_time > ?', (phone_number, time_threshold))
         else:
             conn.close()
             return 0
@@ -252,16 +220,10 @@ class Database:
     def add_audit_log(self, user_type, user_id, action, details=None, ip_address=None):
         conn = self.get_connection()
         cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO audit_logs (user_type, user_id, action, details, ip_address, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (user_type, user_id, action, details, ip_address, datetime.now().isoformat()))
+        cursor.execute('INSERT INTO audit_logs (user_type, user_id, action, details, ip_address, timestamp) VALUES (?, ?, ?, ?, ?, ?)',
+                      (user_type, user_id, action, details, ip_address, datetime.now().isoformat()))
         conn.commit()
         conn.close()
-    
-    # ============================================================
-    # PATIENT METHODS
-    # ============================================================
     
     def get_all_patients(self):
         conn = self.get_connection()
@@ -272,10 +234,9 @@ class Database:
         return patients
     
     def get_all_patients_anonymized(self):
-        """Get patients with ID only - NO NAMES (for doctor dashboard)"""
         conn = self.get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT patient_id, phone_number, language, location, arv_regimen, medication_time, status FROM patients WHERE status = 'active'")
+        cursor.execute("SELECT patient_id, phone_number, location, arv_regimen, medication_time FROM patients WHERE status = 'active'")
         patients = cursor.fetchall()
         conn.close()
         
@@ -284,10 +245,9 @@ class Database:
             result.append({
                 'id': p[0],
                 'phone_last4': p[1][-4:] if p[1] and len(p[1]) >= 4 else '****',
-                'language': p[2],
-                'location': p[3],
-                'arv_regimen': p[4],
-                'medication_time': p[5]
+                'location': p[2],
+                'arv_regimen': p[3],
+                'medication_time': p[4]
             })
         return result
     
@@ -311,15 +271,11 @@ class Database:
         conn = self.get_connection()
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO patients (patient_id, full_name, phone_number, language, location, arv_regimen, medication_time, registration_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO patients (patient_id, full_name, phone_number, location, arv_regimen, medication_time, registration_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         ''', patient_data)
         conn.commit()
         conn.close()
-    
-    # ============================================================
-    # MESSAGE METHODS
-    # ============================================================
     
     def save_message(self, patient_id, direction, msg_type, content, language, risk_level, symptoms, response):
         conn = self.get_connection()
@@ -344,10 +300,7 @@ class Database:
         cursor = conn.cursor()
         cursor.execute('''
             SELECT m.id, m.patient_id, m.direction, m.type, m.content, m.language, m.risk_level, m.symptoms_detected, m.response_sent, m.timestamp, m.is_read, m.is_emergency, p.full_name, p.phone_number
-            FROM messages m 
-            JOIN patients p ON m.patient_id = p.patient_id 
-            WHERE m.direction = 'incoming' AND m.is_read = 0 
-            ORDER BY m.timestamp DESC
+            FROM messages m JOIN patients p ON m.patient_id = p.patient_id WHERE m.direction = 'incoming' AND m.is_read = 0 ORDER BY m.timestamp DESC
         ''')
         messages = cursor.fetchall()
         conn.close()
@@ -358,11 +311,7 @@ class Database:
         cursor = conn.cursor()
         cursor.execute('''
             SELECT m.id, m.patient_id, m.direction, m.type, m.content, m.language, m.risk_level, m.symptoms_detected, m.response_sent, m.timestamp, m.is_read, m.is_emergency, p.full_name, p.phone_number, p.location
-            FROM messages m 
-            JOIN patients p ON m.patient_id = p.patient_id 
-            WHERE m.direction = 'incoming'
-            ORDER BY m.timestamp DESC
-            LIMIT 50
+            FROM messages m JOIN patients p ON m.patient_id = p.patient_id WHERE m.direction = 'incoming' ORDER BY m.timestamp DESC LIMIT 50
         ''')
         messages = cursor.fetchall()
         conn.close()
@@ -374,10 +323,6 @@ class Database:
         cursor.execute("UPDATE messages SET is_read = 1 WHERE id = ?", (message_id,))
         conn.commit()
         conn.close()
-    
-    # ============================================================
-    # PROVIDER METHODS
-    # ============================================================
     
     def authenticate_provider(self, username, password):
         conn = self.get_connection()
@@ -409,18 +354,11 @@ class Database:
         cursor = conn.cursor()
         cursor.execute('''
             SELECT m.id, m.patient_id, m.direction, m.type, m.content, m.language, m.risk_level, m.symptoms_detected, m.response_sent, m.timestamp, m.is_read, m.is_emergency, p.full_name, p.phone_number, p.location
-            FROM messages m 
-            JOIN patients p ON m.patient_id = p.patient_id 
-            WHERE m.is_emergency = 1 AND m.direction = 'incoming'
-            ORDER BY m.timestamp DESC
+            FROM messages m JOIN patients p ON m.patient_id = p.patient_id WHERE m.is_emergency = 1 AND m.direction = 'incoming' ORDER BY m.timestamp DESC
         ''')
         alerts = cursor.fetchall()
         conn.close()
         return alerts
-    
-    # ============================================================
-    # ADHERENCE METHODS
-    # ============================================================
     
     def get_adherence_stats(self, patient_id):
         conn = self.get_connection()
@@ -438,14 +376,9 @@ class Database:
         today = datetime.now().date().isoformat()
         cursor.execute("SELECT * FROM adherence WHERE patient_id = ? AND date = ?", (patient_id, today))
         if not cursor.fetchone():
-            cursor.execute("INSERT INTO adherence (patient_id, date, dose_taken) VALUES (?, ?, ?)", 
-                         (patient_id, today, dose_taken))
+            cursor.execute("INSERT INTO adherence (patient_id, date, dose_taken) VALUES (?, ?, ?)", (patient_id, today, dose_taken))
             conn.commit()
         conn.close()
-    
-    # ============================================================
-    # GIS METHODS
-    # ============================================================
     
     def get_all_villages(self):
         conn = self.get_connection()
@@ -461,10 +394,7 @@ class Database:
         cursor.execute('''
             SELECT h.name, h.village, h.level, h.phone, h.address, h.opening_hours,
                    hd.distance_km, hd.travel_time_minutes, hd.directions
-            FROM hospital_distances hd
-            JOIN hospitals h ON h.name = hd.hospital_name
-            WHERE hd.village_name = ?
-            LIMIT 1
+            FROM hospital_distances hd JOIN hospitals h ON h.name = hd.hospital_name WHERE hd.village_name = ? LIMIT 1
         ''', (village_name,))
         result = cursor.fetchone()
         conn.close()
