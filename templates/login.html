@@ -111,7 +111,6 @@
             }
         }
         
-        // Dynamic language switching on patient login form
         const languageSelect = document.getElementById('languageSelect');
         const phoneLabelPatient = document.getElementById('phoneLabelPatient');
         const patientIdLabelPatient = document.getElementById('patientIdLabelPatient');
@@ -122,7 +121,7 @@
             languageSelect.addEventListener('change', function() {
                 if (this.value === 'Kiswahili') {
                     phoneLabelPatient.textContent = 'NAMBARI YA SIMU';
-                    patientIdLabelPatient.textContent ='KITAMBULISHO CHA MGONJWA';
+                    patientIdLabelPatient.textContent = 'KITAMBULISHO CHA MGONJWA';
                     languageLabel.textContent = 'CHAGUA LUGHA';
                     loginBtnPatient.textContent = 'INGIA DASHIBODI YA MGONJWA';
                 } else {
@@ -134,7 +133,6 @@
             });
         }
         
-        // Dynamic language switching on doctor login form
         const doctorLanguageSelect = document.getElementById('doctorLanguageSelect');
         const usernameLabel = document.getElementById('usernameLabel');
         const passwordLabel = document.getElementById('passwordLabel');
