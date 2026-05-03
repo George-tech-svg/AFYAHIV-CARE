@@ -7,15 +7,52 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #0D5C2E 0%, #064E3B 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .container { display: flex; max-width: 1000px; width: 90%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .container { display: flex; max-width: 900px; width: 90%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
         .info-panel { background: linear-gradient(135deg, #0D5C2E 0%, #064E3B 100%); color: white; padding: 40px; flex: 1; }
         .info-panel h1 { font-size: 32px; margin-bottom: 20px; }
-        .feature-list { list-style: none; margin-top: 20px; }
-        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
         .login-panel { padding: 40px; flex: 1; }
-        .login-tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #eee; }
-        .tab { padding: 10px 20px; cursor: pointer; border: none; background: none; font-size: 16px; }
-        .tab.active { color: #0D5C2E; border-bottom: 2px solid #0D5C2E; }
+        
+        /* Both tabs always visible side by side */
+        .login-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        .tab {
+            flex: 1;
+            padding: 12px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .tab.patient-tab {
+            background: #0D5C2E;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+        .tab.doctor-tab {
+            background: #ccc;
+            color: #333;
+            border-radius: 8px 8px 0 0;
+        }
+        .tab.patient-tab.active {
+            background: #0D5C2E;
+            color: white;
+        }
+        .tab.doctor-tab.active {
+            background: #0D5C2E;
+            color: white;
+        }
+        .tab.doctor-tab:not(.active) {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
         .login-form { display: none; }
         .login-form.active { display: block; }
         .form-group { margin-bottom: 20px; }
@@ -26,29 +63,25 @@
         .error { background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
         .info-text { margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px; font-size: 12px; text-align: center; color: #666; }
         .security-badge { display: inline-block; background: #0D5C2E; color: white; padding: 5px 10px; border-radius: 20px; font-size: 10px; margin-top: 10px; }
+        
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .info-panel { padding: 20px; }
+            .info-panel h1 { font-size: 24px; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="info-panel">
             <h1>AFYAHIV CARE</h1>
-            <p>AI-Powered Multilingual Medication Adherence & Health Monitoring System for HIV Patients</p>
-            <ul class="feature-list">
-                <li> Works on any mobile phone</li>
-                <li> SMS text reporting (English/Kiswahili)</li>
-                <li> Voice call reporting</li>
-                <li> AI-powered emergency detection</li>
-                <li> Real-time doctor alerts</li>
-                <li> Location-based hospital referral</li>
-                <li> Patient identity protection</li>
-            </ul>
             <div class="security-badge"> CONFIDENTIAL - Patient Identity Protected</div>
         </div>
         
         <div class="login-panel">
             <div class="login-tabs">
-                <button class="tab active" onclick="showTab('patient')">PATIENT LOGIN</button>
-                <button class="tab" onclick="showTab('doctor')">DOCTOR LOGIN</button>
+                <button class="tab patient-tab active" onclick="showTab('patient')">PATIENT LOGIN</button>
+                <button class="tab doctor-tab" onclick="showTab('doctor')">DOCTOR LOGIN</button>
             </div>
             
             {% if error %}
@@ -93,14 +126,19 @@
         function showTab(type) {
             const tabs = document.querySelectorAll('.tab');
             const forms = document.querySelectorAll('.login-form');
+            
+            // Remove active class from all tabs
             tabs.forEach(tab => tab.classList.remove('active'));
-            forms.forEach(form => form.classList.remove('active'));
+            
+            // Add active class to selected tab
             if (type === 'patient') {
                 tabs[0].classList.add('active');
                 document.getElementById('patientForm').classList.add('active');
+                document.getElementById('doctorForm').classList.remove('active');
             } else {
                 tabs[1].classList.add('active');
                 document.getElementById('doctorForm').classList.add('active');
+                document.getElementById('patientForm').classList.remove('active');
             }
         }
     </script>
