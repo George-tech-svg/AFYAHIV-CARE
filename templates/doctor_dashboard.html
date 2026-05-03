@@ -23,7 +23,7 @@
         
         .sidebar {
             width: 280px;
-            background: linear-gradient(180deg, #0a3d1a 0%, #062b12 100%);
+            background: linear-gradient(180deg, #064E3B 0%, #043A2C 100%);
             color: white;
             padding: 30px 20px;
             position: fixed;
@@ -34,6 +34,8 @@
         .logo {
             text-align: center;
             margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
         
         .logo h1 {
@@ -42,13 +44,13 @@
         }
         
         .logo p {
-            font-size: 12px;
+            font-size: 11px;
             opacity: 0.7;
         }
         
         .doctor-info {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 30px;
             text-align: center;
@@ -63,7 +65,9 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto 15px;
-            font-size: 36px;
+            font-size: 32px;
+            font-weight: bold;
+            border: 2px solid white;
         }
         
         .doctor-name {
@@ -73,16 +77,17 @@
         }
         
         .doctor-hospital {
-            font-size: 12px;
+            font-size: 11px;
             opacity: 0.7;
         }
         
         .nav-menu {
             list-style: none;
+            margin-top: 20px;
         }
         
         .nav-menu li {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .nav-menu a {
@@ -93,52 +98,81 @@
             border-radius: 10px;
             transition: all 0.3s;
             cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
         }
         
-        .nav-menu a:hover, .nav-menu a.active {
+        .nav-menu a:hover {
             background: #1e8e3e;
+        }
+        
+        .nav-menu a.active {
+            background: #1e8e3e;
+            border-left: 3px solid white;
         }
         
         .main-content {
             flex: 1;
             margin-left: 280px;
-            padding: 20px;
+            padding: 25px;
         }
         
         .top-bar {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 15px 25px;
             margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .page-title {
-            font-size: 24px;
-            color: #333;
+            font-size: 22px;
+            color: #064E3B;
+            font-weight: 600;
         }
         
         .logout-btn {
-            background: #dc3545;
+            background: #C62828;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 8px 18px;
+            border-radius: 6px;
             cursor: pointer;
             text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .logout-btn:hover {
+            background: #B71C1C;
         }
         
         .refresh-btn {
-            background: #17a2b8;
+            background: #1A73E8;
             color: white;
             border: none;
             padding: 8px 15px;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            margin-left: 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .refresh-btn:hover {
+            background: #064E3B;
+        }
+        
+        .lang-select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #D1D5DB;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
         }
         
         .content-section {
@@ -150,11 +184,12 @@
         }
         
         .section-title {
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 20px;
-            color: #333;
-            border-bottom: 2px solid #1e8e3e;
-            padding-bottom: 10px;
+            color: #064E3B;
+            border-left: 4px solid #1e8e3e;
+            padding-left: 12px;
+            font-weight: 600;
         }
         
         .stats-grid {
@@ -166,48 +201,46 @@
         
         .stat-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.2s;
+            border-top: 3px solid #1e8e3e;
         }
         
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-2px);
         }
         
         .stat-value {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: bold;
             color: #1e8e3e;
         }
         
         .stat-label {
-            font-size: 14px;
-            color: #666;
+            font-size: 13px;
+            color: #6B7280;
             margin-top: 5px;
         }
         
         .emergency-section {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-left: 5px solid #f44336;
+            border-left: 4px solid #C62828;
         }
         
         .emergency-title {
-            color: #f44336;
+            color: #C62828;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-weight: 600;
         }
         
         .emergency-item {
-            background: #ffebee;
+            background: #FFEBEE;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 10px;
@@ -219,29 +252,23 @@
         
         .emergency-patient {
             font-weight: bold;
-        }
-        
-        .emergency-message {
-            color: #f44336;
-            font-size: 14px;
-            margin-top: 5px;
+            color: #C62828;
         }
         
         .emergency-action {
-            background: #f44336;
+            background: #C62828;
             color: white;
             border: none;
             padding: 8px 15px;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
         }
         
         .patients-section {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow-x: auto;
         }
         
@@ -250,21 +277,16 @@
             border-collapse: collapse;
         }
         
-        .patients-table th,
-        .patients-table td {
+        .patients-table th, .patients-table td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #E5E7EB;
         }
         
         .patients-table th {
-            background: #f8f9fa;
+            background: #F9FAFB;
             font-weight: 600;
-            color: #555;
-        }
-        
-        .patients-table tr:hover {
-            background: #f5f7fa;
+            color: #374151;
         }
         
         .adherence-indicator {
@@ -279,17 +301,17 @@
         }
         
         .adherence-good {
-            background: #1e8e3e;
+            background: #2E7D32;
             color: white;
         }
         
         .adherence-medium {
-            background: #ff9800;
+            background: #E65100;
             color: white;
         }
         
         .adherence-poor {
-            background: #f44336;
+            background: #C62828;
             color: white;
         }
         
@@ -305,7 +327,7 @@
         }
         
         .view-btn {
-            background: #17a2b8;
+            background: #1A73E8;
             color: white;
             border: none;
             padding: 6px 12px;
@@ -316,10 +338,9 @@
         
         .registration-form {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .form-grid {
@@ -336,15 +357,15 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #333;
+            color: #374151;
+            font-size: 13px;
         }
         
-        .form-group input,
-        .form-group select {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
             font-size: 14px;
         }
         
@@ -353,24 +374,23 @@
             color: white;
             border: none;
             padding: 12px 30px;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 500;
             width: 100%;
+            margin-top: 10px;
         }
         
         .reports-section {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .report-item {
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #E5E7EB;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -378,7 +398,7 @@
         }
         
         .unread-badge {
-            background: #f44336;
+            background: #C62828;
             color: white;
             padding: 2px 8px;
             border-radius: 20px;
@@ -395,20 +415,19 @@
         
         .analytics-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .analytics-value {
-            font-size: 48px;
+            font-size: 42px;
             font-weight: bold;
             color: #1e8e3e;
             text-align: center;
         }
         
         .progress-bar {
-            background: #e0e0e0;
+            background: #E5E7EB;
             border-radius: 10px;
             height: 20px;
             margin-top: 10px;
@@ -419,49 +438,6 @@
             background: #1e8e3e;
             height: 100%;
             border-radius: 10px;
-            transition: width 0.5s;
-        }
-        
-        .simulator-box {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-        
-        .simulator-select, .simulator-textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        
-        .simulator-btn {
-            background: #1e8e3e;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .voice-simulator {
-            text-align: center;
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 15px;
-        }
-        
-        .voice-call-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 10px;
         }
         
         .modal {
@@ -479,7 +455,7 @@
         
         .modal-content {
             background: white;
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 30px;
             max-width: 500px;
             width: 90%;
@@ -487,8 +463,8 @@
         
         .modal-content textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 12px;
+            border: 1px solid #D1D5DB;
             border-radius: 8px;
             margin: 15px 0;
             resize: vertical;
@@ -505,34 +481,17 @@
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
         }
         
         .cancel-btn {
-            background: #ccc;
+            background: #9CA3AF;
+            color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-        }
-        
-        .success-message {
-            background: #e8f5e9;
-            color: #1e8e3e;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            display: none;
-        }
-        
-        .error-message {
-            background: #ffebee;
-            color: #c62828;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            display: none;
         }
         
         @media (max-width: 768px) {
@@ -549,13 +508,6 @@
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            .emergency-item, .report-item {
-                flex-direction: column;
-                text-align: center;
-            }
-            .emergency-action {
-                margin-top: 10px;
-            }
         }
     </style>
 </head>
@@ -563,35 +515,36 @@
     <div class="dashboard-container">
         <div class="sidebar">
             <div class="logo">
-                <h1>🏥 AFYAHIV CARE</h1>
-                <p>Provider Portal</p>
+                <h1>AFYAHIV CARE</h1>
+                <p>PROVIDER PORTAL</p>
             </div>
             
             <div class="doctor-info">
-                <div class="doctor-avatar">👨‍⚕️</div>
+                <div class="doctor-avatar">DR</div>
                 <div class="doctor-name">{{ session.get('doctor_name', 'Doctor') }}</div>
                 <div class="doctor-hospital">{{ session.get('hospital', 'Hospital') }}</div>
             </div>
             
             <ul class="nav-menu">
-                <li><a href="#" onclick="showSection('dashboard'); return false;" class="active">📊 Dashboard</a></li>
-                <li><a href="#" onclick="showSection('register'); return false;">📝 Register Patient</a></li>
-                <li><a href="#" onclick="showSection('patients'); return false;">👥 Patients</a></li>
-                <li><a href="#" onclick="showSection('reports'); return false;">📋 Reports</a></li>
-                <li><a href="#" onclick="showSection('ussd_messages'); return false;">📱 USSD Messages</a></li>
-                <li><a href="#" onclick="showSection('alerts'); return false;">🚨 Alerts</a></li>
-                <li><a href="#" onclick="showSection('analytics'); return false;">📈 Analytics</a></li>
-                <li><a href="#" onclick="showSection('sms_simulator'); return false;">📱 SMS Simulator</a></li>
-                <li><a href="#" onclick="showSection('voice_simulator'); return false;">🎤 Voice Simulator</a></li>
+                <li><a onclick="showSection('dashboard')" class="active">DASHBOARD</a></li>
+                <li><a onclick="showSection('register')">REGISTER PATIENT</a></li>
+                <li><a onclick="showSection('patients')">PATIENTS</a></li>
+                <li><a onclick="showSection('reports')">REPORTS</a></li>
+                <li><a onclick="showSection('alerts')">ALERTS</a></li>
+                <li><a onclick="showSection('analytics')">ANALYTICS</a></li>
             </ul>
         </div>
         
         <div class="main-content">
             <div class="top-bar">
-                <h2 class="page-title" id="pageTitle">Doctor Dashboard</h2>
-                <div>
-                    <button class="refresh-btn" onclick="refreshCurrentSection()">🔄 Refresh</button>
-                    <a href="/logout" class="logout-btn">Logout</a>
+                <h2 class="page-title" id="pageTitle">DOCTOR DASHBOARD</h2>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
+                        <option value="English" {% if language == 'English' %}selected{% endif %}>English</option>
+                        <option value="Kiswahili" {% if language == 'Kiswahili' %}selected{% endif %}>Kiswahili</option>
+                    </select>
+                    <button class="refresh-btn" onclick="refreshCurrentSection()">REFRESH</button>
+                    <a href="/logout" class="logout-btn">LOGOUT</a>
                 </div>
             </div>
             
@@ -600,51 +553,49 @@
                 <div class="stats-grid">
                     <div class="stat-card" onclick="showSection('patients')">
                         <div class="stat-value">{{ patients|length }}</div>
-                        <div class="stat-label">Total Patients</div>
+                        <div class="stat-label">TOTAL PATIENTS</div>
                     </div>
                     <div class="stat-card" onclick="showSection('alerts')">
-                        <div class="stat-value" id="emergencyCount">{{ emergency_alerts|length }}</div>
-                        <div class="stat-label">Active Emergencies</div>
+                        <div class="stat-value">{{ emergency_alerts|length }}</div>
+                        <div class="stat-label">ACTIVE EMERGENCIES</div>
                     </div>
                     <div class="stat-card" onclick="showSection('reports')">
-                        <div class="stat-value" id="unreadCount">{{ unread_messages|length }}</div>
-                        <div class="stat-label">Unread Reports</div>
+                        <div class="stat-value">{{ unread_messages|length }}</div>
+                        <div class="stat-label">UNREAD REPORTS</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-value">85%</div>
-                        <div class="stat-label">Avg Adherence</div>
+                        <div class="stat-label">AVG ADHERENCE</div>
                     </div>
                 </div>
                 
                 {% if emergency_alerts %}
                 <div class="emergency-section">
-                    <div class="emergency-title">🚨 EMERGENCY ALERTS</div>
+                    <div class="emergency-title">EMERGENCY ALERTS</div>
                     {% for alert in emergency_alerts[:3] %}
                     <div class="emergency-item">
                         <div>
-                            <div class="emergency-patient">{{ alert[14] }} ({{ alert[1] }})</div>
-                            <div class="emergency-message">{{ alert[4][:100] }}</div>
-                            <div style="font-size: 12px; color: #666;">📍 {{ alert[16] }}</div>
+                            <div class="emergency-patient">{{ alert[12] }} ({{ alert[1] }})</div>
+                            <div style="font-size: 13px; margin-top: 5px;">{{ alert[4][:100] }}</div>
+                            <div style="font-size: 12px; color: #6B7280;">Location: {{ alert[14] }}</div>
                         </div>
-                        <button class="emergency-action" onclick="openMessageModal('{{ alert[1] }}', '{{ alert[14] }}')">Respond</button>
+                        <button class="emergency-action" onclick="openMessageModal('{{ alert[1] }}', '{{ alert[12] }}')">RESPOND</button>
                     </div>
                     {% endfor %}
                 </div>
                 {% endif %}
                 
                 <div class="patients-section">
-                    <h3 class="section-title">📋 Recent Patients</h3>
+                    <h3 class="section-title">RECENT PATIENTS</h3>
                     <table class="patients-table">
                         <thead>
-                            <tr><th>ID</th><th>Name</th><th>Location</th><th>Phone</th><th>Adherence</th><th>Action</th></tr>
+                            <tr><th>ID</th><th>LOCATION</th><th>ADHERENCE</th><th>ACTION</th></tr>
                         </thead>
                         <tbody>
                             {% for patient in patients[:5] %}
                             <tr>
                                 <td>{{ patient.id }}</td>
-                                <td>{{ patient.name }}</td>
                                 <td>{{ patient.location }}</td>
-                                <td>{{ patient.phone }}</td>
                                 <td>
                                     <span class="adherence-indicator 
                                         {% if patient.adherence >= 80 %}adherence-good
@@ -654,8 +605,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <button class="message-btn" onclick="openMessageModal('{{ patient.id }}', '{{ patient.name }}')">💬 Message</button>
-                                    <button class="view-btn" onclick="viewPatientDetails('{{ patient.id }}')">📋 View</button>
+                                    <button class="message-btn" onclick="openMessageModal('{{ patient.id }}', '{{ patient.id }}')">MESSAGE</button>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -666,88 +616,58 @@
             
             <!-- Register Patient Section -->
             <div id="registerSection" class="content-section">
-                <h3 class="section-title">📝 Register New Patient</h3>
+                <h3 class="section-title">REGISTER NEW PATIENT</h3>
                 <div class="registration-form">
                     <form id="patientRegistrationForm" onsubmit="registerPatient(event)">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Full Name *</label>
-                                <input type="text" id="fullName" required placeholder="e.g., Mary Atieno">
+                                <label>FULL NAME</label>
+                                <input type="text" id="fullName" required placeholder="Enter full name">
                             </div>
                             <div class="form-group">
-                                <label>Phone Number *</label>
+                                <label>PHONE NUMBER</label>
                                 <input type="tel" id="phoneNumber" required placeholder="+254712345678">
                             </div>
                             <div class="form-group">
-                                <label>Location / Village *</label>
-                                <input type="text" id="location" required placeholder="e.g., Siaya Town">
+                                <label>LOCATION / VILLAGE</label>
+                                <input type="text" id="location" required placeholder="Siaya Town">
                             </div>
                             <div class="form-group">
-                                <label>Preferred Language *</label>
-                                <select id="language">
-                                    <option value="English">English</option>
-                                    <option value="Kiswahili">Kiswahili</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>ARV Regimen *</label>
+                                <label>ARV REGIMEN</label>
                                 <select id="arvRegimen">
                                     <option value="TLD">TLD (Tenofovir/Lamivudine/Dolutegravir)</option>
                                     <option value="TLE">TLE (Tenofovir/Lamivudine/Efavirenz)</option>
-                                    <option value="ABC">ABC (Abacavir)</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Medication Time *</label>
+                                <label>MEDICATION TIME</label>
                                 <input type="time" id="medicationTime" value="20:00" required>
                             </div>
                         </div>
                         
-                        <div id="registerSuccess" class="success-message"></div>
-                        <div id="registerError" class="error-message"></div>
+                        <div id="registerSuccess" style="display: none; background: #E8F5E9; color: #2E7D32; padding: 15px; border-radius: 8px; margin-top: 15px;"></div>
+                        <div id="registerError" style="display: none; background: #FFEBEE; color: #C62828; padding: 15px; border-radius: 8px; margin-top: 15px;"></div>
                         
-                        <button type="submit" class="register-btn">✅ Register Patient</button>
+                        <button type="submit" class="register-btn">REGISTER PATIENT</button>
                     </form>
-                </div>
-                
-                <div class="patients-section">
-                    <h3 class="section-title">🆕 Recently Registered Patients</h3>
-                    <table class="patients-table">
-                        <thead>
-                            <tr><th>ID</th><th>Name</th><th>Phone</th><th>Location</th><th>Language</th></tr>
-                        </thead>
-                        <tbody>
-                            {% for patient in patients[-5:]|reverse %}
-                            <tr>
-                                <td>{{ patient.id }}</td>
-                                <td>{{ patient.name }}</td>
-                                <td>{{ patient.phone }}</td>
-                                <td>{{ patient.location }}</td>
-                                <td>{{ patient.language }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
                 </div>
             </div>
             
             <!-- Patients Section -->
             <div id="patientsSection" class="content-section">
-                <h3 class="section-title">👥 All Registered Patients</h3>
+                <h3 class="section-title">ALL REGISTERED PATIENTS</h3>
                 <div class="patients-section">
-                    <input type="text" id="searchPatients" placeholder="🔍 Search patients by name, ID, or phone..." style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px;">
+                    <input type="text" id="searchPatients" placeholder="Search patients by ID or location..." style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #D1D5DB; border-radius: 6px;">
                     <table class="patients-table">
                         <thead>
-                            <tr><th>ID</th><th>Name</th><th>Phone</th><th>Location</th><th>Language</th><th>ARV</th><th>Adherence</th><th>Action</th></tr>
+                            <tr><th>ID</th><th>PHONE (LAST 4)</th><th>LOCATION</th><th>ARV</th><th>ADHERENCE</th><th>ACTION</th></tr>
                         </thead>
                         <tbody id="allPatientsList">
                             {% for patient in patients %}
                             <tr>
                                 <td>{{ patient.id }}</td>
-                                <td>{{ patient.name }}</td>
-                                <td>{{ patient.phone }}</td>
+                                <td>{{ patient.phone_last4 }}</td>
                                 <td>{{ patient.location }}</td>
-                                <td>{{ patient.language }}</td>
                                 <td>{{ patient.arv_regimen }}</td>
                                 <td>
                                     <span class="adherence-indicator 
@@ -758,8 +678,8 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <button class="message-btn" onclick="openMessageModal('{{ patient.id }}', '{{ patient.name }}')">💬 Message</button>
-                                    <button class="view-btn" onclick="viewPatientDetails('{{ patient.id }}')">📋 View</button>
+                                    <button class="message-btn" onclick="openMessageModal('{{ patient.id }}', '{{ patient.id }}')">MESSAGE</button>
+                                    <button class="view-btn" onclick="viewPatientDetails('{{ patient.id }}')">VIEW</button>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -770,150 +690,77 @@
             
             <!-- Reports Section -->
             <div id="reportsSection" class="content-section">
-                <h3 class="section-title">📋 All Patient Reports</h3>
+                <h3 class="section-title">PATIENT REPORTS</h3>
                 <div class="reports-section">
-                    <div id="allReportsList">
-                        {% for msg in all_messages %}
-                        <div class="report-item">
-                            <div>
-                                <strong>{{ msg[14] }}</strong> 
-                                {% if msg[13] == 0 %}<span class="unread-badge">NEW</span>{% endif %}
-                                <div style="font-size: 14px; margin-top: 5px;">{{ msg[4] }}</div>
-                                <div style="font-size: 12px; color: #999; margin-top: 5px;">
-                                    Risk: <span style="color: {% if msg[6] == 'high' %}#f44336{% elif msg[6] == 'medium' %}#ff9800{% else %}#1e8e3e{% endif %}">{{ msg[6].upper() }}</span>
-                                    • Type: {{ msg[3].upper() }} • {{ msg[9][:16] }}
-                                </div>
+                    {% for msg in all_messages %}
+                    <div class="report-item">
+                        <div>
+                            <strong>{{ msg[12] }}</strong>
+                            {% if msg[10] == 0 %}<span class="unread-badge">NEW</span>{% endif %}
+                            <div style="margin-top: 5px;">{{ msg[4] }}</div>
+                            <div style="font-size: 12px; color: #9CA3AF; margin-top: 5px;">
+                                Risk: <span style="color: {% if msg[6] == 'high' %}#C62828{% elif msg[6] == 'medium' %}#E65100{% else %}#2E7D32{% endif %}">{{ msg[6].upper() }}</span>
+                                • Type: {{ msg[3].upper() }} • {{ msg[9][:16] }}
                             </div>
-                            <button class="message-btn" onclick="markRead({{ msg[0] }})">✓ Mark Read</button>
                         </div>
-                        {% else %}
-                        <p style="text-align: center; padding: 40px; color: #999;">No reports from patients</p>
-                        {% endfor %}
+                        <button class="message-btn" onclick="markRead({{ msg[0] }})">MARK READ</button>
                     </div>
-                </div>
-            </div>
-            
-            <!-- USSD Messages Section -->
-            <div id="ussd_messagesSection" class="content-section">
-                <h3 class="section-title">📱 USSD Messages from Patients</h3>
-                <div class="reports-section">
-                    <div id="ussdMessagesList">
-                        <p style="text-align: center; padding: 40px; color: #999;">Loading USSD messages...</p>
-                    </div>
+                    {% else %}
+                    <p style="text-align: center; padding: 40px;">No reports from patients</p>
+                    {% endfor %}
                 </div>
             </div>
             
             <!-- Alerts Section -->
             <div id="alertsSection" class="content-section">
-                <h3 class="section-title">🚨 Emergency Alerts</h3>
-                <div class="emergency-section" style="border-left-color: #f44336;">
+                <h3 class="section-title">EMERGENCY ALERTS</h3>
+                <div class="emergency-section" style="border-left-color: #C62828;">
                     {% if emergency_alerts %}
                         {% for alert in emergency_alerts %}
                         <div class="emergency-item">
                             <div>
-                                <div class="emergency-patient">{{ alert[14] }} ({{ alert[1] }})</div>
-                                <div class="emergency-message">{{ alert[4] }}</div>
-                                <div style="font-size: 12px; color: #666; margin-top: 5px;">
-                                    📍 {{ alert[16] }} • 📱 {{ alert[15] }} • 🕐 {{ alert[9][:16] }}
+                                <div class="emergency-patient">{{ alert[12] }} ({{ alert[1] }})</div>
+                                <div style="margin-top: 5px;">{{ alert[4] }}</div>
+                                <div style="font-size: 12px; color: #6B7280; margin-top: 5px;">
+                                    Location: {{ alert[14] }} • Time: {{ alert[9][:16] }}
                                 </div>
                             </div>
-                            <button class="emergency-action" onclick="openMessageModal('{{ alert[1] }}', '{{ alert[14] }}')">Respond</button>
+                            <button class="emergency-action" onclick="openMessageModal('{{ alert[1] }}', '{{ alert[12] }}')">RESPOND</button>
                         </div>
                         {% endfor %}
                     {% else %}
-                        <p style="text-align: center; padding: 40px; color: #999;">No emergency alerts at this time</p>
+                        <p style="text-align: center; padding: 40px;">No emergency alerts at this time</p>
                     {% endif %}
                 </div>
             </div>
             
             <!-- Analytics Section -->
             <div id="analyticsSection" class="content-section">
-                <h3 class="section-title">📈 Analytics Dashboard</h3>
+                <h3 class="section-title">ANALYTICS DASHBOARD</h3>
                 <div class="analytics-grid">
                     <div class="analytics-card">
-                        <h4>Overall Adherence Rate</h4>
+                        <h4>OVERALL ADHERENCE RATE</h4>
                         <div class="analytics-value">85%</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 85%"></div>
-                        </div>
-                        <p style="margin-top: 10px; text-align: center;">Target: 95%</p>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
                     </div>
                     <div class="analytics-card">
-                        <h4>Total Reports Received</h4>
+                        <h4>TOTAL REPORTS RECEIVED</h4>
                         <div class="analytics-value">{{ all_messages|length }}</div>
-                        <p style="text-align: center;">This month</p>
                     </div>
                     <div class="analytics-card">
-                        <h4>Emergency Responses</h4>
+                        <h4>EMERGENCY RESPONSES</h4>
                         <div class="analytics-value">{{ emergency_alerts|length }}</div>
-                        <p style="text-align: center;">Requiring immediate attention</p>
                     </div>
                 </div>
                 
                 <div class="analytics-card">
-                    <h4>Patient Demographics</h4>
+                    <h4>PATIENT DEMOGRAPHICS</h4>
                     <div style="margin-top: 15px;">
-                        <div>📍 By Location:</div>
-                        {% set locations = {} %}
+                        <div>By Location:</div>
                         {% for patient in patients %}
-                            {% set loc = patient.location %}
-                            {% if loc in locations %}
-                                {% set _ = locations.update({loc: locations[loc] + 1}) %}
-                            {% else %}
-                                {% set _ = locations.update({loc: 1}) %}
-                            {% endif %}
-                        {% endfor %}
-                        {% for loc, count in locations.items() %}
-                        <div style="margin-left: 15px;">• {{ loc }}: {{ count }} patients</div>
+                        <div style="margin-left: 15px;">• {{ patient.location }}: 1 patient</div>
                         {% endfor %}
                     </div>
-                    <div style="margin-top: 15px;">
-                        <div>🗣️ By Language:</div>
-                        {% set languages = {} %}
-                        {% for patient in patients %}
-                            {% set lang = patient.language %}
-                            {% if lang in languages %}
-                                {% set _ = languages.update({lang: languages[lang] + 1}) %}
-                            {% else %}
-                                {% set _ = languages.update({lang: 1}) %}
-                            {% endif %}
-                        {% endfor %}
-                        {% for lang, count in languages.items() %}
-                        <div style="margin-left: 15px;">• {{ lang }}: {{ count }} patients</div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            
-            <!-- SMS Simulator Section -->
-            <div id="sms_simulatorSection" class="content-section">
-                <h3 class="section-title">📱 Africa's Talking SMS Simulator</h3>
-                <div class="simulator-box">
-                    <p style="margin-bottom: 15px;">Simulate sending an SMS to a patient via Africa's Talking gateway</p>
-                    <select id="smsPatientSelect" class="simulator-select">
-                        {% for patient in patients %}
-                        <option value="{{ patient.phone }}">{{ patient.name }} ({{ patient.phone }}) - {{ patient.language }}</option>
-                        {% endfor %}
-                    </select>
-                    <textarea id="smsMessageText" class="simulator-textarea" rows="4" placeholder="Type SMS message to send to patient..."></textarea>
-                    <button class="simulator-btn" onclick="sendSimulatedSMS()">📱 Send SMS via Africa's Talking</button>
-                    <div id="smsResult" style="margin-top: 15px; padding: 10px; border-radius: 8px; display: none;"></div>
-                </div>
-            </div>
-            
-            <!-- Voice Simulator Section -->
-            <div id="voice_simulatorSection" class="content-section">
-                <h3 class="section-title">🎤 Africa's Talking Voice Simulator</h3>
-                <div class="voice-simulator">
-                    <div style="font-size: 60px;">📞</div>
-                    <p style="margin-bottom: 20px;">Simulate a voice call from a patient using Africa's Talking Voice API</p>
-                    <select id="voicePatientSelect" class="simulator-select" style="width: 80%; margin: 10px auto;">
-                        {% for patient in patients %}
-                        <option value="{{ patient.phone }}">{{ patient.name }} ({{ patient.phone }}) - {{ patient.language }}</option>
-                        {% endfor %}
-                    </select>
-                    <button class="voice-call-btn" onclick="startVoiceCallSimulation()">📞 Simulate Incoming Voice Call (344)</button>
-                    <div id="voiceResult" style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px; display: none;"></div>
                 </div>
             </div>
         </div>
@@ -922,131 +769,131 @@
     <!-- Message Modal -->
     <div id="messageModal" class="modal">
         <div class="modal-content">
-            <h3>💬 Send Message to Patient</h3>
+            <h3>SEND MESSAGE TO PATIENT</h3>
             <input type="hidden" id="patientId">
-            <p id="patientNameDisplay" style="margin-bottom: 15px;"></p>
+            <p id="patientNameDisplay" style="margin-bottom: 15px; color: #6B7280;"></p>
             <textarea id="doctorMessage" rows="4" placeholder="Type your message here..."></textarea>
             <div class="modal-buttons">
-                <button class="cancel-btn" onclick="closeMessageModal()">Cancel</button>
-                <button class="send-btn" onclick="sendDoctorMessage()">Send Message</button>
+                <button class="cancel-btn" onclick="closeMessageModal()">CANCEL</button>
+                <button class="send-btn" onclick="sendDoctorMessage()">SEND MESSAGE</button>
             </div>
         </div>
     </div>
     
     <script>
         function showSection(sectionName) {
-            var sections = document.querySelectorAll('.content-section');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].classList.remove('active');
-            }
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
             
-            var navLinks = document.querySelectorAll('.nav-menu a');
-            for (var i = 0; i < navLinks.length; i++) {
-                navLinks[i].classList.remove('active');
-            }
+            const sectionId = sectionName + 'Section';
+            document.getElementById(sectionId).classList.add('active');
             
-            var sectionId = sectionName + 'Section';
-            var selectedSection = document.getElementById(sectionId);
-            if (selectedSection) {
-                selectedSection.classList.add('active');
-            }
-            
-            var titles = {
-                'dashboard': 'Doctor Dashboard',
-                'register': 'Register New Patient',
-                'patients': 'Patient Management',
-                'reports': 'Patient Reports',
-                'ussd_messages': 'USSD Messages',
-                'alerts': 'Emergency Alerts',
-                'analytics': 'Analytics Dashboard',
-                'sms_simulator': 'SMS Simulator',
-                'voice_simulator': 'Voice Call Simulator'
+            const titles = {
+                'dashboard': 'DOCTOR DASHBOARD',
+                'register': 'REGISTER PATIENT',
+                'patients': 'PATIENT MANAGEMENT',
+                'reports': 'PATIENT REPORTS',
+                'alerts': 'EMERGENCY ALERTS',
+                'analytics': 'ANALYTICS DASHBOARD'
             };
-            
-            var pageTitle = document.getElementById('pageTitle');
-            if (pageTitle) {
-                pageTitle.innerText = titles[sectionName] || 'AFYAHIV CARE';
-            }
-            
-            if (event && event.target) {
-                event.target.classList.add('active');
-            }
-            
-            if (sectionName === 'ussd_messages') {
-                loadUSSDMessages();
-            }
+            document.getElementById('pageTitle').innerText = titles[sectionName] || 'AFYAHIV CARE';
+            event.target.classList.add('active');
         }
         
         function refreshCurrentSection() {
             location.reload();
         }
         
+        // Language Change Function
+        async function changeLanguage() {
+            const language = document.getElementById('languageSelect').value;
+            
+            try {
+                const response = await fetch('/set_language', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ language: language })
+                });
+                
+                if (response.ok) {
+                    location.reload();
+                }
+            } catch (error) {
+                console.error('Error changing language:', error);
+            }
+        }
+        
         async function registerPatient(event) {
             event.preventDefault();
             
-            var formData = new FormData();
+            const formData = new FormData();
             formData.append('full_name', document.getElementById('fullName').value);
             formData.append('phone_number', document.getElementById('phoneNumber').value);
-            formData.append('language', document.getElementById('language').value);
             formData.append('location', document.getElementById('location').value);
             formData.append('arv_regimen', document.getElementById('arvRegimen').value);
             formData.append('medication_time', document.getElementById('medicationTime').value);
             
-            var successDiv = document.getElementById('registerSuccess');
-            var errorDiv = document.getElementById('registerError');
+            const successDiv = document.getElementById('registerSuccess');
+            const errorDiv = document.getElementById('registerError');
             
             successDiv.style.display = 'none';
             errorDiv.style.display = 'none';
             
             try {
-                var response = await fetch('/doctor/register_patient', {
+                const response = await fetch('/doctor/register_patient', {
                     method: 'POST',
                     body: formData
                 });
                 
-                var result = await response.json();
+                const result = await response.json();
                 
                 if (result.status === 'success') {
                     successDiv.style.display = 'block';
-                    successDiv.innerHTML = '✅ Patient registered successfully!<br>Patient ID: <strong>' + result.patient_id + '</strong>';
-                    setTimeout(function() { location.reload(); }, 2000);
+                    successDiv.innerHTML = 'Patient registered successfully! Patient ID: ' + result.patient_id;
+                    document.getElementById('patientRegistrationForm').reset();
+                    document.getElementById('medicationTime').value = '20:00';
+                    setTimeout(() => location.reload(), 2000);
                 } else {
                     errorDiv.style.display = 'block';
-                    errorDiv.innerHTML = '❌ Error: ' + result.error;
+                    errorDiv.innerHTML = 'Error: ' + result.error;
                 }
             } catch (error) {
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = '❌ Network error. Please try again.';
+                errorDiv.innerHTML = 'Network error. Please try again.';
             }
         }
         
         async function sendDoctorMessage() {
-            var patientId = document.getElementById('patientId').value;
-            var message = document.getElementById('doctorMessage').value;
+            const patientId = document.getElementById('patientId').value;
+            const message = document.getElementById('doctorMessage').value;
             
             if (!message.trim()) {
                 alert('Please enter a message');
                 return;
             }
             
-            var formData = new FormData();
+            const formData = new FormData();
             formData.append('patient_id', patientId);
             formData.append('message', message);
             
             try {
-                var response = await fetch('/doctor/send_message', {
+                const response = await fetch('/doctor/send_message', {
                     method: 'POST',
                     body: formData
                 });
                 
-                var result = await response.json();
+                const result = await response.json();
                 
                 if (result.status === 'success') {
-                    alert('✅ ' + result.message);
+                    alert('Message sent successfully!');
                     closeMessageModal();
-                    setTimeout(function() { location.reload(); }, 500);
+                    setTimeout(() => location.reload(), 500);
                 } else {
-                    alert('❌ Error sending message');
+                    alert('Error sending message');
                 }
             } catch (error) {
                 alert('Network error: ' + error);
@@ -1055,7 +902,7 @@
         
         function openMessageModal(patientId, patientName) {
             document.getElementById('patientId').value = patientId;
-            document.getElementById('patientNameDisplay').innerHTML = 'Sending to: <strong>' + patientName + '</strong> (' + patientId + ')';
+            document.getElementById('patientNameDisplay').innerHTML = 'Sending to: ' + patientName;
             document.getElementById('doctorMessage').value = '';
             document.getElementById('messageModal').style.display = 'flex';
         }
@@ -1075,16 +922,14 @@
         
         async function viewPatientDetails(patientId) {
             try {
-                var response = await fetch('/doctor/patient/' + patientId);
-                var data = await response.json();
+                const response = await fetch('/doctor/patient/' + patientId);
+                const data = await response.json();
                 
-                var message = '📋 PATIENT DETAILS\n\n';
-                message += 'Name: ' + data.patient.name + '\n';
+                let message = 'PATIENT DETAILS\n\n';
                 message += 'ID: ' + data.patient.id + '\n';
-                message += 'Phone: ' + data.patient.phone + '\n';
+                message += 'Phone (last 4): ' + data.patient.phone_last4 + '\n';
                 message += 'Location: ' + data.patient.location + '\n';
-                message += 'Language: ' + data.patient.language + '\n';
-                message += 'ARV: ' + data.patient.arv_regimen + ' @ ' + data.patient.medication_time + '\n';
+                message += 'ARV: ' + data.patient.arv_regimen + ' at ' + data.patient.medication_time + '\n';
                 message += 'Adherence: ' + data.adherence.percentage + '%\n';
                 
                 alert(message);
@@ -1093,130 +938,27 @@
             }
         }
         
-        async function loadUSSDMessages() {
-            try {
-                const response = await fetch('/doctor/ussd_messages');
-                const messages = await response.json();
-                const container = document.getElementById('ussdMessagesList');
-                
-                if (messages.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; padding: 40px; color: #999;">No USSD messages from patients</p>';
-                    return;
-                }
-                
-                let html = '';
-                for (const msg of messages) {
-                    const riskColor = msg.risk_level === 'high' ? '#f44336' : (msg.risk_level === 'medium' ? '#ff9800' : '#1e8e3e');
-                    html += `
-                        <div class="report-item">
-                            <div>
-                                <strong>${msg.patient_name}</strong> (${msg.patient_phone})
-                                <div style="font-size: 14px; margin-top: 5px;">${msg.message}</div>
-                                <div style="font-size: 12px; color: #999; margin-top: 5px;">
-                                    Risk: <span style="color: ${riskColor}">${msg.risk_level.toUpperCase()}</span>
-                                    • Via: USSD • ${msg.timestamp.substring(0, 16)}
-                                </div>
-                            </div>
-                            <button class="message-btn" onclick="openMessageModalByPhone('${msg.patient_phone}')">💬 Reply</button>
-                        </div>
-                    `;
-                }
-                container.innerHTML = html;
-            } catch (error) {
-                console.error('Error loading USSD messages:', error);
-                document.getElementById('ussdMessagesList').innerHTML = '<p style="text-align: center; padding: 40px; color: #999;">Error loading USSD messages</p>';
-            }
-        }
-        
-        function openMessageModalByPhone(patientPhone) {
-            alert('Reply to ' + patientPhone + ' via SMS. The patient will receive your response.');
-        }
-        
-        var searchInput = document.getElementById('searchPatients');
+        // Search functionality
+        const searchInput = document.getElementById('searchPatients');
         if (searchInput) {
             searchInput.addEventListener('keyup', function() {
-                var searchTerm = this.value.toLowerCase();
-                var rows = document.querySelectorAll('#allPatientsList tr');
+                const searchTerm = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#allPatientsList tr');
                 
-                for (var i = 0; i < rows.length; i++) {
-                    var row = rows[i];
-                    var text = row.innerText.toLowerCase();
-                    if (text.indexOf(searchTerm) > -1) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                for (let i = 0; i < rows.length; i++) {
+                    const text = rows[i].innerText.toLowerCase();
+                    rows[i].style.display = text.indexOf(searchTerm) > -1 ? '' : 'none';
                 }
             });
         }
         
-        async function sendSimulatedSMS() {
-            var phone = document.getElementById('smsPatientSelect').value;
-            var message = document.getElementById('smsMessageText').value;
-            
-            if (!message.trim()) {
-                alert('Please enter an SMS message');
-                return;
-            }
-            
-            var resultDiv = document.getElementById('smsResult');
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '📡 Connecting to Africa\'s Talking API...';
-            resultDiv.style.background = '#e3f2fd';
-            
-            try {
-                var formData = new FormData();
-                formData.append('phone', phone);
-                formData.append('message', message);
-                
-                var response = await fetch('/doctor/send_message_sim', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                resultDiv.innerHTML = '✅ SMS sent via Africa\'s Talking to ' + phone + '<br>Message: "' + message + '"';
-                resultDiv.style.background = '#e8f5e9';
-                resultDiv.style.color = '#1e8e3e';
-                document.getElementById('smsMessageText').value = '';
-            } catch (error) {
-                resultDiv.innerHTML = '❌ Error sending SMS. Please try again.';
-                resultDiv.style.background = '#ffebee';
-                resultDiv.style.color = '#c62828';
-            }
-            
-            setTimeout(function() {
-                resultDiv.style.display = 'none';
-            }, 5000);
-        }
-        
-        function startVoiceCallSimulation() {
-            var resultDiv = document.getElementById('voiceResult');
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '📞 Connecting to Africa\'s Talking Voice API...<br>📱 Dialing 344...';
-            resultDiv.style.background = '#e3f2fd';
-            
-            setTimeout(function() {
-                var message = prompt('Patient speaks (simulated):', 'Nina homa na kichwa kinaniuma');
-                if (message) {
-                    resultDiv.innerHTML = '🎤 Voice message received: "' + message + '"<br>🤖 AI Analyzing...<br>📱 Sending response via SMS...<br><br>✅ Voice call processed successfully!';
-                    resultDiv.style.background = '#e8f5e9';
-                }
-            }, 2000);
-        }
-        
+        // Close modal when clicking outside
         window.onclick = function(event) {
-            var modal = document.getElementById('messageModal');
-            if (event.target == modal) {
+            const modal = document.getElementById('messageModal');
+            if (event.target === modal) {
                 closeMessageModal();
             }
         }
-        
-        setInterval(function() {
-            var activeSection = document.querySelector('.content-section.active');
-            if (activeSection && activeSection.id !== 'sms_simulatorSection' && activeSection.id !== 'voice_simulatorSection' && activeSection.id !== 'registerSection' && activeSection.id !== 'ussd_messagesSection') {
-                location.reload();
-            }
-        }, 30000);
     </script>
 </body>
 </html>
