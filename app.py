@@ -1,14 +1,14 @@
-# app.py - Complete AFYAHIV CARE with Language Selection
+# app.py - Complete AFYAHIV CARE with Language Translation (Full File)
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from database import Database
 from ai_engine import AIEngine
 from sms_handler import SMSHandler, AfricaTalkingSandbox
 from voice_simulator import VoiceSimulator
+from translator import translator
 from datetime import datetime, timedelta
 from functools import wraps
 import uuid
 import re
-import json
 
 app = Flask(__name__)
 app.secret_key = "afyahiv-care-secret-key-2024"
@@ -36,24 +36,37 @@ def login_required(f):
     return decorated_function
 
 # ============================================================
-# LANGUAGE ROUTES
+# LANGUAGE TRANSLATION ROUTES
 # ============================================================
 
-@app.route('/doctor/set_language', methods=['POST'])
-def set_doctor_language():
-    if session.get('user_type') != 'doctor':
-        return jsonify({"error": "Unauthorized"}), 401
-    data = request.get_json()
-    session['doctor_language'] = data.get('language', 'English')
-    return jsonify({"status": "success"})
+@app.route('/set_language', methods=['POST'])
+def set_language():
+    """Set language for current user (patient or doctor)"""
+    if 'user_type' not in session:
+        return jsonify({"error": "Not logged in"}), 401
+    
+    language = request.json.get('language', 'English')
+    user_type = session.get('user_type')
+    
+    if user_type == 'patient':
+        session['patient_language'] = language
+    else:
+        session['doctor_language'] = language
+    
+    return jsonify({"status": "success", "language": language})
 
-@app.route('/patient/set_language', methods=['POST'])
-def set_patient_language():
-    if session.get('user_type') != 'patient':
-        return jsonify({"error": "Unauthorized"}), 401
-    data = request.get_json()
-    session['patient_language'] = data.get('language', 'English')
-    return jsonify({"status": "success"})
+@app.route('/api/translate', methods=['POST'])
+def api_translate():
+    """API endpoint for translating text"""
+    data = request.json
+    text = data.get('text', '')
+    language = data.get('language', 'English')
+    
+    if not text:
+        return jsonify({"translated": ""})
+    
+    translated = translator.translate_text(text, language)
+    return jsonify({"translated": translated})
 
 # ============================================================
 # HOME & LOGIN
@@ -67,7 +80,6 @@ def index():
 def patient_login():
     phone = request.form.get('phone')
     patient_id = request.form.get('patient_id')
-    selected_language = request.form.get('language', 'English')
     
     failed_count = db.get_failed_attempts(phone_number=phone)
     if failed_count >= 5:
@@ -80,7 +92,7 @@ def patient_login():
         session['patient_id'] = patient_id
         session['patient_phone'] = patient[3]
         session['patient_location'] = patient[5]
-        session['patient_language'] = selected_language
+        session['patient_language'] = 'English'  # Default English
         session.permanent = True
         db.add_audit_log('patient', patient_id, 'login', f'Patient {patient_id} logged in')
         return redirect(url_for('patient_dashboard'))
@@ -92,7 +104,6 @@ def patient_login():
 def doctor_login():
     username = request.form.get('username')
     password = request.form.get('password')
-    selected_language = request.form.get('doctor_language', 'English')
     
     failed_count = db.get_failed_attempts(username=username)
     if failed_count >= 5:
@@ -105,7 +116,7 @@ def doctor_login():
         session['doctor_id'] = provider[0]
         session['doctor_name'] = provider[3]
         session['hospital'] = provider[5]
-        session['doctor_language'] = selected_language
+        session['doctor_language'] = 'English'  # Default English
         session.permanent = True
         db.add_audit_log('doctor', username, 'login', f'Doctor {provider[3]} logged in')
         return redirect(url_for('doctor_dashboard'))
@@ -455,6 +466,7 @@ if __name__ == '__main__':
     print("\nDEMO LOGIN:")
     print("   Doctor: dr.mwangi / doctor123")
     print("\nAccess at: http://localhost:5000")
+    print("\nLanguage Feature: Select language from dashboard after login")
     print("="*70 + "\n")
     
     app.run(debug=True, host='0.0.0.0', port=5000)
