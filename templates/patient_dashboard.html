@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0D5C2E 0%, #064E3B 100%);
+            background: linear-gradient(135deg, #1e8e3e 0%, #0d5e2a 100%);
             min-height: 100vh;
         }
         
@@ -22,50 +22,44 @@
             min-height: 100vh;
         }
         
-        /* Sidebar - Deep Medical Green */
+        /* Sidebar */
         .sidebar {
             width: 280px;
-            background: linear-gradient(180deg, #064E3B 0%, #043A2C 100%);
+            background: linear-gradient(180deg, #0a3d1a 0%, #062b12 100%);
             color: white;
             padding: 30px 20px;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         }
         
         .logo {
             text-align: center;
             margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
         
         .logo h1 {
             font-size: 24px;
             margin-bottom: 5px;
-            letter-spacing: 1px;
         }
         
         .logo p {
-            font-size: 11px;
+            font-size: 12px;
             opacity: 0.7;
-            letter-spacing: 1px;
         }
         
         .patient-info {
-            background: rgba(255,255,255,0.12);
-            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
             padding: 20px;
             margin-bottom: 30px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .patient-avatar {
             width: 80px;
             height: 80px;
-            background: #0D5C2E;
+            background: #1e8e3e;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -110,11 +104,11 @@
         }
         
         .nav-menu a:hover {
-            background: #0D5C2E;
+            background: #1e8e3e;
         }
         
         .nav-menu a.active {
-            background: #0D5C2E;
+            background: #1e8e3e;
             border-left: 3px solid #FFFFFF;
         }
         
@@ -166,7 +160,6 @@
             padding: 8px 15px;
             border-radius: 6px;
             cursor: pointer;
-            margin-right: 10px;
             font-size: 14px;
             font-weight: 500;
             transition: background 0.3s;
@@ -174,6 +167,15 @@
         
         .refresh-btn:hover {
             background: #0D5C2E;
+        }
+        
+        .lang-select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #D1D5DB;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
         }
         
         /* Content Sections */
@@ -189,7 +191,7 @@
             font-size: 18px;
             margin-bottom: 20px;
             color: #064E3B;
-            border-left: 4px solid #0D5C2E;
+            border-left: 4px solid #1e8e3e;
             padding-left: 12px;
             font-weight: 600;
         }
@@ -208,7 +210,7 @@
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: transform 0.2s, box-shadow 0.2s;
-            border-top: 3px solid #0D5C2E;
+            border-top: 3px solid #1e8e3e;
         }
         
         .stat-card:hover {
@@ -227,7 +229,7 @@
         .stat-value {
             font-size: 32px;
             font-weight: bold;
-            color: #0D5C2E;
+            color: #1e8e3e;
         }
         
         .adherence-bar {
@@ -239,7 +241,7 @@
         }
         
         .adherence-fill {
-            background: #0D5C2E;
+            background: #1e8e3e;
             height: 100%;
             border-radius: 10px;
             transition: width 0.5s;
@@ -301,12 +303,12 @@
         
         .report-textarea:focus {
             outline: none;
-            border-color: #0D5C2E;
-            box-shadow: 0 0 0 2px rgba(13,92,46,0.1);
+            border-color: #1e8e3e;
+            box-shadow: 0 0 0 2px rgba(30,142,62,0.1);
         }
         
         .send-report {
-            background: #0D5C2E;
+            background: #1e8e3e;
             color: white;
             border: none;
             padding: 10px 28px;
@@ -328,7 +330,7 @@
             padding: 25px;
             margin-bottom: 30px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-left: 4px solid #0D5C2E;
+            border-left: 4px solid #1e8e3e;
         }
         
         .form-group {
@@ -355,12 +357,12 @@
         
         .form-group select:focus {
             outline: none;
-            border-color: #0D5C2E;
-            box-shadow: 0 0 0 2px rgba(13,92,46,0.1);
+            border-color: #1e8e3e;
+            box-shadow: 0 0 0 2px rgba(30,142,62,0.1);
         }
         
         .find-hospital-btn {
-            background: #0D5C2E;
+            background: #1e8e3e;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -426,7 +428,7 @@
         
         .message-icon.outgoing {
             background: #E8F5E9;
-            color: #0D5C2E;
+            color: #1e8e3e;
         }
         
         .message-content {
@@ -509,7 +511,7 @@
         }
         
         .take-dose-btn {
-            background: #0D5C2E;
+            background: #1e8e3e;
             color: white;
             border: none;
             padding: 8px 16px;
@@ -551,7 +553,7 @@
         }
         
         .voice-call-btn:hover {
-            background: #0D5C2E;
+            background: #1e8e3e;
         }
         
         /* Settings Groups */
@@ -597,6 +599,14 @@
         
         .edit-btn:hover {
             background: #0D5C2E;
+        }
+        
+        .reminder-box {
+            background: #E3F2FD;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 3px solid #1A73E8;
         }
         
         /* Modal */
@@ -656,21 +666,13 @@
         }
         
         .modal-btn-primary {
-            background: #0D5C2E;
+            background: #1e8e3e;
             color: white;
         }
         
         .modal-btn-secondary {
             background: #9CA3AF;
             color: white;
-        }
-        
-        .reminder-box {
-            background: #E3F2FD;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 3px solid #1A73E8;
         }
         
         @media (max-width: 768px) {
@@ -684,11 +686,12 @@
             .main-content {
                 margin-left: 80px;
             }
-            .stats-grid {
+            .stats-grid, .medication-log {
                 grid-template-columns: 1fr;
             }
-            .medication-log {
-                grid-template-columns: 1fr;
+            .top-bar {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -699,16 +702,16 @@
         <div class="sidebar">
             <div class="logo">
                 <h1>AFYAHIV CARE</h1>
-                <p>MEDICATION ADHERENCE SYSTEM</p>
+                <p>Medication Adherence System</p>
             </div>
             
             <div class="patient-info">
-                <div class="patient-avatar">{{ patient[2][0] if patient and patient[2] else 'P' }}</div>
-                <div class="patient-name">{{ patient[2] if patient else 'Patient' }}</div>
-                <div class="patient-id">{{ patient[1] if patient else 'ID' }}</div>
+                <div class="patient-avatar">{{ patient_id[0] if patient_id else 'P' }}</div>
+                <div class="patient-name" id="patientIdDisplay">{{ patient_id }}</div>
+                <div class="patient-id">Patient ID: {{ patient_id }}</div>
                 <div style="margin-top: 12px; font-size: 11px; opacity: 0.8;">
-                    Location: {{ patient[5] if patient else 'Not Set' }}<br>
-                    ARV: {{ patient[6] if patient else 'TLD' }}
+                    Location: {{ patient_location }}<br>
+                    ARV: {{ patient_arv }}
                 </div>
             </div>
             
@@ -726,7 +729,11 @@
         <div class="main-content">
             <div class="top-bar">
                 <h2 class="page-title" id="pageTitle">PATIENT DASHBOARD</h2>
-                <div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <select id="languageSelect" onchange="changeLanguage()" class="lang-select">
+                        <option value="English" {% if language == 'English' %}selected{% endif %}>English</option>
+                        <option value="Kiswahili" {% if language == 'Kiswahili' %}selected{% endif %}>Kiswahili</option>
+                    </select>
                     <button class="refresh-btn" onclick="refreshCurrentSection()">REFRESH</button>
                     <a href="/logout" class="logout-btn">LOGOUT</a>
                 </div>
@@ -816,7 +823,7 @@
                 <h3 class="section-title">MEDICATION ADHERENCE LOG</h3>
                 <div class="medication-log">
                     <div class="medication-card">
-                        <div class="medication-date">TODAY</div>
+                        <div class="medication-date" id="todayDate">TODAY</div>
                         <div class="dose-status" id="todayStatus">--</div>
                         <div id="todayMessage">Not yet taken</div>
                         <button class="take-dose-btn" onclick="markDoseTaken()">MARK DOSE AS TAKEN</button>
@@ -833,7 +840,7 @@
                     </div>
                 </div>
                 <div class="reminder-box">
-                    <strong>REMINDER:</strong> Take your ARV medication daily at {{ patient[7] if patient else '8:00 PM' }} for best results.
+                    <strong>REMINDER:</strong> Take your ARV medication daily at {{ patient_time }} for best results.
                 </div>
             </div>
             
@@ -858,7 +865,7 @@
                         <label>SELECT YOUR LOCATION / VILLAGE</label>
                         <select id="villageSelect">
                             {% for village in villages %}
-                            <option value="{{ village }}" {% if patient and patient[5] == village %}selected{% endif %}>
+                            <option value="{{ village }}" {% if patient_location == village %}selected{% endif %}>
                                 {{ village }}
                             </option>
                             {% endfor %}
@@ -877,13 +884,11 @@
                 
                 <div class="settings-group">
                     <div class="settings-label">PERSONAL INFORMATION</div>
-                    <div class="settings-value">Name: <strong>{{ patient[2] if patient else 'N/A' }}</strong></div>
-                    <div class="settings-value">Patient ID: <strong>{{ patient[1] if patient else 'N/A' }}</strong></div>
-                    <div class="settings-value">Phone Number: <strong>{{ patient[3] if patient else 'N/A' }}</strong></div>
-                    <div class="settings-value">Location: <strong>{{ patient[5] if patient else 'N/A' }}</strong></div>
+                    <div class="settings-value">Patient ID: <strong>{{ patient_id }}</strong></div>
+                    <div class="settings-value">Location: <strong>{{ patient_location }}</strong></div>
                     <select id="locationSelect" class="settings-select">
                         {% for village in villages %}
-                        <option value="{{ village }}" {% if patient and patient[5] == village %}selected{% endif %}>{{ village }}</option>
+                        <option value="{{ village }}" {% if patient_location == village %}selected{% endif %}>{{ village }}</option>
                         {% endfor %}
                     </select>
                     <button class="edit-btn" onclick="updateLocation()">UPDATE LOCATION</button>
@@ -891,19 +896,19 @@
                 
                 <div class="settings-group">
                     <div class="settings-label">MEDICATION SETTINGS</div>
-                    <div class="settings-value">ARV Regimen: <strong>{{ patient[6] if patient else 'TLD' }}</strong></div>
-                    <div class="settings-value">Medication Time: <strong>{{ patient[7] if patient else '20:00' }} (8:00 PM)</strong></div>
+                    <div class="settings-value">ARV Regimen: <strong>{{ patient_arv }}</strong></div>
+                    <div class="settings-value">Medication Time: <strong>{{ patient_time }} ({{ patient_time }} daily)</strong></div>
                     <div class="settings-value">Reminder: <strong>Daily SMS reminder enabled</strong></div>
                 </div>
                 
                 <div class="settings-group">
                     <div class="settings-label">LANGUAGE PREFERENCE</div>
-                    <div class="settings-value">Preferred Language: <strong>{{ patient[4] if patient else 'English' }}</strong></div>
-                    <select id="languageSelect" class="settings-select">
-                        <option value="English" {% if patient and patient[4] == 'English' %}selected{% endif %}>English</option>
-                        <option value="Kiswahili" {% if patient and patient[4] == 'Kiswahili' %}selected{% endif %}>Kiswahili</option>
+                    <div class="settings-value">Current Language: <strong>{{ language }}</strong></div>
+                    <select id="langSettingsSelect" class="settings-select">
+                        <option value="English" {% if language == 'English' %}selected{% endif %}>English</option>
+                        <option value="Kiswahili" {% if language == 'Kiswahili' %}selected{% endif %}>Kiswahili</option>
                     </select>
-                    <button class="edit-btn" onclick="updateLanguage()">SAVE LANGUAGE</button>
+                    <button class="edit-btn" onclick="updateLanguageFromSettings()">SAVE LANGUAGE</button>
                 </div>
             </div>
         </div>
@@ -949,6 +954,44 @@
         
         function refreshCurrentSection() {
             location.reload();
+        }
+        
+        // Language Change Function
+        async function changeLanguage() {
+            const language = document.getElementById('languageSelect').value;
+            
+            try {
+                const response = await fetch('/set_language', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ language: language })
+                });
+                
+                if (response.ok) {
+                    location.reload();
+                }
+            } catch (error) {
+                console.error('Error changing language:', error);
+            }
+        }
+        
+        async function updateLanguageFromSettings() {
+            const language = document.getElementById('langSettingsSelect').value;
+            
+            try {
+                const response = await fetch('/set_language', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ language: language })
+                });
+                
+                if (response.ok) {
+                    alert('Language updated successfully. Page will reload.');
+                    location.reload();
+                }
+            } catch (error) {
+                alert('Error updating language');
+            }
         }
         
         // Send Report
@@ -1068,8 +1111,8 @@
                 
                 if (data.status === 'success') {
                     const h = data.hospital;
-                    resultDiv.innerHTML = '<div style="background: #E8F5E9; border-radius: 10px; padding: 15px; border-left: 3px solid #0D5C2E;">' +
-                        '<h4 style="color: #0D5C2E; margin-bottom: 12px;">NEAREST HOSPITAL</h4>' +
+                    resultDiv.innerHTML = '<div style="background: #E8F5E9; border-radius: 10px; padding: 15px; border-left: 3px solid #1e8e3e;">' +
+                        '<h4 style="color: #1e8e3e; margin-bottom: 12px;">NEAREST HOSPITAL</h4>' +
                         '<p><strong>Name:</strong> ' + h.name + '</p>' +
                         '<p><strong>Location:</strong> ' + h.village + '</p>' +
                         '<p><strong>Distance:</strong> ' + h.distance_km + ' km</p>' +
@@ -1111,30 +1154,6 @@
                 }
             } catch (error) {
                 alert('Error updating location');
-            }
-        }
-        
-        // Update Language
-        async function updateLanguage() {
-            const language = document.getElementById('languageSelect').value;
-            
-            try {
-                const formData = new FormData();
-                formData.append('language', language);
-                
-                const response = await fetch('/patient/update_language', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    alert('Language updated to: ' + language);
-                    location.reload();
-                }
-            } catch (error) {
-                alert('Error updating language');
             }
         }
         
@@ -1217,21 +1236,21 @@
             document.getElementById('voice-report').style.display = 'block';
         }
         
-        // Auto-refresh every 10 seconds
+        // Set current date
+        const today = new Date();
+        const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const dateElement = document.getElementById('todayDate');
+        if (dateElement) {
+            dateElement.innerHTML = 'TODAY (' + dateStr.toUpperCase() + ')';
+        }
+        
+        // Auto-refresh messages every 10 seconds
         setInterval(() => {
             const activeSection = document.querySelector('.content-section.active');
             if (activeSection && activeSection.id === 'messagesSection') {
                 refreshMessages();
             }
         }, 10000);
-        
-        // Set current date
-        const today = new Date();
-        const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        const dateElement = document.querySelector('#medicationSection .medication-card:first-child .medication-date');
-        if (dateElement) {
-            dateElement.innerHTML = 'TODAY (' + dateStr.toUpperCase() + ')';
-        }
     </script>
 </body>
 </html>
