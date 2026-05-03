@@ -1,4 +1,4 @@
-# voice_simulator.py - Voice call reporting simulation
+# voice_simulator.py - Voice call reporting simulation (No external dependencies)
 class VoiceSimulator:
     def __init__(self, ai_engine, sms_handler, database):
         self.ai_engine = ai_engine
@@ -6,16 +6,17 @@ class VoiceSimulator:
         self.db = database
     
     def simulate_voice_call(self, patient_phone=None, pre_recorded_message=None):
+        """Simulate a voice call interaction - works without speechrecognition"""
         print("\n" + "="*50)
-        print("VOICE CALL SYSTEM")
+        print("VOICE CALL SYSTEM (SIMULATED)")
         print("="*50)
         
         if pre_recorded_message:
             transcribed_text = pre_recorded_message
+            print(f"Message: {transcribed_text}")
         else:
-            transcribed_text = input("Type your message: ")
-        
-        print(f"Message: {transcribed_text}")
+            # For simulation, use text input instead of real voice
+            transcribed_text = input("Type your message (simulated voice): ")
         
         patients = self.db.get_all_patients()
         patient = None
