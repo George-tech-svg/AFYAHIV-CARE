@@ -1,4 +1,4 @@
 Flask==2.3.0
-speechrecognition==3.10.0
-pyaudio==0.2.11
+bcrypt==4.0.1
 requests==2.31.0
+gunicorn==21.2.0
