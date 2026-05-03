@@ -5,727 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AFYAHIV CARE | Patient Dashboard</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e8e3e 0%, #0d5e2a 100%);
-            min-height: 100vh;
-        }
-        
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: linear-gradient(180deg, #0a3d1a 0%, #062b12 100%);
-            color: white;
-            padding: 30px 20px;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-        }
-        
-        .logo {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .logo h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        
-        .logo p {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-        
-        .patient-info {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .patient-avatar {
-            width: 80px;
-            height: 80px;
-            background: #1e8e3e;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 32px;
-            font-weight: bold;
-            border: 2px solid #FFFFFF;
-        }
-        
-        .patient-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .patient-id {
-            font-size: 11px;
-            opacity: 0.7;
-            font-family: monospace;
-        }
-        
-        .nav-menu {
-            list-style: none;
-            margin-top: 20px;
-        }
-        
-        .nav-menu li {
-            margin-bottom: 8px;
-        }
-        
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            padding: 12px 15px;
-            display: block;
-            border-radius: 10px;
-            transition: all 0.3s;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .nav-menu a:hover {
-            background: #1e8e3e;
-        }
-        
-        .nav-menu a.active {
-            background: #1e8e3e;
-            border-left: 3px solid #FFFFFF;
-        }
-        
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 25px;
-        }
-        
-        .top-bar {
-            background: white;
-            border-radius: 12px;
-            padding: 15px 25px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        
-        .page-title {
-            font-size: 22px;
-            color: #064E3B;
-            font-weight: 600;
-        }
-        
-        .logout-btn {
-            background: #C62828;
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-        
-        .logout-btn:hover {
-            background: #B71C1C;
-        }
-        
-        .refresh-btn {
-            background: #1A73E8;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-        
-        .refresh-btn:hover {
-            background: #0D5C2E;
-        }
-        
-        .lang-select {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #D1D5DB;
-            background: white;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        /* Content Sections */
-        .content-section {
-            display: none;
-        }
-        
-        .content-section.active {
-            display: block;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #064E3B;
-            border-left: 4px solid #1e8e3e;
-            padding-left: 12px;
-            font-weight: 600;
-        }
-        
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-top: 3px solid #1e8e3e;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .stat-title {
-            font-size: 13px;
-            color: #6B7280;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .stat-value {
-            font-size: 32px;
-            font-weight: bold;
-            color: #1e8e3e;
-        }
-        
-        .adherence-bar {
-            background: #E5E7EB;
-            border-radius: 10px;
-            height: 8px;
-            margin-top: 12px;
-            overflow: hidden;
-        }
-        
-        .adherence-fill {
-            background: #1e8e3e;
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.5s;
-        }
-        
-        /* Report Section */
-        .report-section {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        
-        .report-buttons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .report-btn {
-            padding: 10px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .sms-btn {
-            background: #1A73E8;
-            color: white;
-        }
-        
-        .sms-btn:hover {
-            background: #0D5C2E;
-        }
-        
-        .voice-btn {
-            background: #008080;
-            color: white;
-        }
-        
-        .voice-btn:hover {
-            background: #0D5C2E;
-        }
-        
-        .report-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #D1D5DB;
-            border-radius: 8px;
-            font-size: 14px;
-            resize: vertical;
-            margin-bottom: 15px;
-            font-family: inherit;
-        }
-        
-        .report-textarea:focus {
-            outline: none;
-            border-color: #1e8e3e;
-            box-shadow: 0 0 0 2px rgba(30,142,62,0.1);
-        }
-        
-        .send-report {
-            background: #1e8e3e;
-            color: white;
-            border: none;
-            padding: 10px 28px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-        
-        .send-report:hover {
-            background: #064E3B;
-        }
-        
-        /* Hospital Locator Section */
-        .hospital-section {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-left: 4px solid #1e8e3e;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #374151;
-            font-size: 14px;
-        }
-        
-        .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #D1D5DB;
-            border-radius: 8px;
-            font-size: 14px;
-            background: white;
-            font-family: inherit;
-        }
-        
-        .form-group select:focus {
-            outline: none;
-            border-color: #1e8e3e;
-            box-shadow: 0 0 0 2px rgba(30,142,62,0.1);
-        }
-        
-        .find-hospital-btn {
-            background: #1e8e3e;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            width: 100%;
-            transition: background 0.3s;
-        }
-        
-        .find-hospital-btn:hover {
-            background: #064E3B;
-        }
-        
-        .hospital-result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-        }
-        
-        /* Messages Section */
-        .messages-section {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        
-        .message-list {
-            max-height: 450px;
-            overflow-y: auto;
-        }
-        
-        .message-item {
-            padding: 15px;
-            border-bottom: 1px solid #F3F4F6;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        
-        .message-item:hover {
-            background: #F9FAFB;
-        }
-        
-        .message-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        .message-icon.incoming {
-            background: #E3F2FD;
-            color: #1A73E8;
-        }
-        
-        .message-icon.outgoing {
-            background: #E8F5E9;
-            color: #1e8e3e;
-        }
-        
-        .message-content {
-            flex: 1;
-        }
-        
-        .message-text {
-            margin-bottom: 5px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        
-        .message-time {
-            font-size: 11px;
-            color: #9CA3AF;
-        }
-        
-        .risk-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 500;
-            margin-left: 10px;
-        }
-        
-        .risk-high {
-            background: #FFEBEE;
-            color: #C62828;
-        }
-        
-        .risk-medium {
-            background: #FFF3E0;
-            color: #E65100;
-        }
-        
-        .risk-low {
-            background: #E8F5E9;
-            color: #2E7D32;
-        }
-        
-        .response-message {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            display: none;
-            font-size: 14px;
-        }
-        
-        /* Medication Log */
-        .medication-log {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .medication-card {
-            background: #F9FAFB;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #E5E7EB;
-            transition: box-shadow 0.2s;
-        }
-        
-        .medication-card:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        
-        .medication-date {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #374151;
-        }
-        
-        .dose-status {
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
-        
-        .take-dose-btn {
-            background: #1e8e3e;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 12px;
-            font-size: 13px;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-        
-        .take-dose-btn:hover {
-            background: #064E3B;
-        }
-        
-        /* Voice Container */
-        .voice-container {
-            text-align: center;
-            padding: 30px;
-            background: #F9FAFB;
-            border-radius: 12px;
-        }
-        
-        .voice-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-        
-        .voice-call-btn {
-            background: #008080;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .voice-call-btn:hover {
-            background: #1e8e3e;
-        }
-        
-        /* Settings Groups */
-        .settings-group {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #E5E7EB;
-        }
-        
-        .settings-label {
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #374151;
-            font-size: 15px;
-        }
-        
-        .settings-value {
-            color: #6B7280;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        
-        .settings-select {
-            padding: 8px 12px;
-            margin-top: 10px;
-            border-radius: 6px;
-            border: 1px solid #D1D5DB;
-            font-size: 14px;
-            width: 200px;
-        }
-        
-        .edit-btn {
-            background: #1A73E8;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
-        
-        .edit-btn:hover {
-            background: #0D5C2E;
-        }
-        
-        .reminder-box {
-            background: #E3F2FD;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 3px solid #1A73E8;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-        }
-        
-        .recording-animation {
-            width: 80px;
-            height: 80px;
-            background: #C62828;
-            border-radius: 50%;
-            margin: 20px auto;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-        
-        .modal-input {
-            width: 100%;
-            padding: 10px;
-            margin: 15px 0;
-            border: 1px solid #D1D5DB;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        
-        .modal-btn {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .modal-btn-primary {
-            background: #1e8e3e;
-            color: white;
-        }
-        
-        .modal-btn-secondary {
-            background: #9CA3AF;
-            color: white;
-        }
-        
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 80px;
-                padding: 20px 10px;
-            }
-            .sidebar .logo h1, .sidebar .logo p, .sidebar .patient-info .patient-name, .sidebar .patient-info .patient-id {
-                display: none;
-            }
-            .main-content {
-                margin-left: 80px;
-            }
-            .stats-grid, .medication-log {
-                grid-template-columns: 1fr;
-            }
-            .top-bar {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #1e8e3e 0%, #0d5e2a 100%); min-height: 100vh; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: linear-gradient(180deg, #0a3d1a 0%, #062b12 100%); color: white; padding: 30px 20px; position: fixed; height: 100vh; overflow-y: auto; }
+        .logo { text-align: center; margin-bottom: 40px; }
+        .logo h1 { font-size: 24px; margin-bottom: 5px; }
+        .logo p { font-size: 12px; opacity: 0.7; }
+        .patient-info { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 30px; text-align: center; }
+        .patient-avatar { width: 80px; height: 80px; background: #1e8e3e; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 32px; font-weight: bold; border: 2px solid #FFFFFF; }
+        .patient-id { font-size: 11px; opacity: 0.7; font-family: monospace; }
+        .nav-menu { list-style: none; margin-top: 20px; }
+        .nav-menu li { margin-bottom: 8px; }
+        .nav-menu a { color: white; text-decoration: none; padding: 12px 15px; display: block; border-radius: 10px; transition: all 0.3s; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .nav-menu a:hover { background: #1e8e3e; }
+        .nav-menu a.active { background: #1e8e3e; border-left: 3px solid #FFFFFF; }
+        .main-content { flex: 1; margin-left: 280px; padding: 25px; }
+        .top-bar { background: white; border-radius: 12px; padding: 15px 25px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .page-title { font-size: 22px; color: #064E3B; font-weight: 600; }
+        .logout-btn { background: #C62828; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: 500; }
+        .logout-btn:hover { background: #B71C1C; }
+        .refresh-btn { background: #1A73E8; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .refresh-btn:hover { background: #064E3B; }
+        .lang-select { padding: 8px 12px; border-radius: 6px; border: 1px solid #D1D5DB; background: white; font-size: 14px; cursor: pointer; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .section-title { font-size: 18px; margin-bottom: 20px; color: #064E3B; border-left: 4px solid #1e8e3e; padding-left: 12px; font-weight: 600; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s; border-top: 3px solid #1e8e3e; }
+        .stat-card:hover { transform: translateY(-2px); }
+        .stat-title { font-size: 13px; color: #6B7280; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-value { font-size: 32px; font-weight: bold; color: #1e8e3e; }
+        .adherence-bar { background: #E5E7EB; border-radius: 10px; height: 8px; margin-top: 12px; overflow: hidden; }
+        .adherence-fill { background: #1e8e3e; height: 100%; border-radius: 10px; }
+        .report-section { background: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
+        .report-buttons { display: flex; gap: 15px; margin-bottom: 20px; }
+        .report-btn { padding: 10px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; }
+        .sms-btn { background: #1A73E8; color: white; }
+        .sms-btn:hover { background: #064E3B; }
+        .voice-btn { background: #008080; color: white; }
+        .voice-btn:hover { background: #064E3B; }
+        .report-textarea { width: 100%; padding: 12px; border: 1px solid #D1D5DB; border-radius: 8px; font-size: 14px; resize: vertical; margin-bottom: 15px; font-family: inherit; }
+        .send-report { background: #1e8e3e; color: white; border: none; padding: 10px 28px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .send-report:hover { background: #064E3B; }
+        .hospital-section { background: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; border-left: 4px solid #1e8e3e; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #374151; font-size: 14px; }
+        .form-group select { width: 100%; padding: 10px 12px; border: 1px solid #D1D5DB; border-radius: 8px; font-size: 14px; background: white; }
+        .find-hospital-btn { background: #1e8e3e; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; width: 100%; }
+        .find-hospital-btn:hover { background: #064E3B; }
+        .hospital-result { margin-top: 20px; padding: 15px; border-radius: 10px; display: none; }
+        .messages-section { background: white; border-radius: 12px; padding: 25px; }
+        .message-list { max-height: 450px; overflow-y: auto; }
+        .message-item { padding: 15px; border-bottom: 1px solid #F3F4F6; display: flex; align-items: flex-start; gap: 15px; }
+        .message-item:hover { background: #F9FAFB; }
+        .message-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+        .message-icon.incoming { background: #E3F2FD; color: #1A73E8; }
+        .message-icon.outgoing { background: #E8F5E9; color: #1e8e3e; }
+        .message-content { flex: 1; }
+        .message-text { margin-bottom: 5px; font-size: 14px; line-height: 1.5; }
+        .message-time { font-size: 11px; color: #9CA3AF; }
+        .risk-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 500; margin-left: 10px; }
+        .risk-high { background: #FFEBEE; color: #C62828; }
+        .risk-medium { background: #FFF3E0; color: #E65100; }
+        .risk-low { background: #E8F5E9; color: #2E7D32; }
+        .response-message { margin-top: 15px; padding: 12px; border-radius: 8px; display: none; font-size: 14px; }
+        .medication-log { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .medication-card { background: #F9FAFB; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #E5E7EB; }
+        .medication-date { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #374151; }
+        .dose-status { font-size: 42px; margin-bottom: 10px; }
+        .take-dose-btn { background: #1e8e3e; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 12px; font-size: 13px; font-weight: 500; }
+        .take-dose-btn:hover { background: #064E3B; }
+        .voice-container { text-align: center; padding: 30px; background: #F9FAFB; border-radius: 12px; }
+        .voice-icon { font-size: 64px; margin-bottom: 20px; }
+        .voice-call-btn { background: #008080; color: white; border: none; padding: 12px 28px; border-radius: 50px; font-size: 16px; font-weight: 500; cursor: pointer; }
+        .voice-call-btn:hover { background: #1e8e3e; }
+        .settings-group { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #E5E7EB; }
+        .settings-label { font-weight: 600; margin-bottom: 12px; color: #374151; font-size: 15px; }
+        .settings-value { color: #6B7280; margin-bottom: 10px; font-size: 14px; }
+        .settings-select { padding: 8px 12px; margin-top: 10px; border-radius: 6px; border: 1px solid #D1D5DB; font-size: 14px; width: 200px; }
+        .edit-btn { background: #1A73E8; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; margin-top: 10px; }
+        .edit-btn:hover { background: #064E3B; }
+        .reminder-box { background: #E3F2FD; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 3px solid #1A73E8; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: white; border-radius: 16px; padding: 30px; max-width: 450px; width: 90%; text-align: center; }
+        .recording-animation { width: 80px; height: 80px; background: #C62828; border-radius: 50%; margin: 20px auto; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+        .modal-input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #D1D5DB; border-radius: 8px; font-size: 14px; }
+        .modal-btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .modal-btn-primary { background: #1e8e3e; color: white; }
+        .modal-btn-secondary { background: #9CA3AF; color: white; }
+        @media (max-width: 768px) { .sidebar { width: 80px; padding: 20px 10px; } .sidebar .logo h1, .sidebar .logo p, .sidebar .patient-info .patient-id { display: none; } .main-content { margin-left: 80px; } .stats-grid, .medication-log { grid-template-columns: 1fr; } .top-bar { flex-direction: column; } }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
                 <h1>AFYAHIV CARE</h1>
-                <p>Medication Adherence System</p>
+                <p id="sidebarSubtitle">Medication Adherence System</p>
             </div>
-            
             <div class="patient-info">
                 <div class="patient-avatar">{{ patient_id[0] if patient_id else 'P' }}</div>
-                <div class="patient-name" id="patientIdDisplay">{{ patient_id }}</div>
-                <div class="patient-id">Patient ID: {{ patient_id }}</div>
+                <div class="patient-id" id="patientIdLabel">Patient ID: {{ patient_id }}</div>
                 <div style="margin-top: 12px; font-size: 11px; opacity: 0.8;">
-                    Location: {{ patient_location }}<br>
-                    ARV: {{ patient_arv }}
+                    <span id="locationLabel">Location</span>: {{ patient_location }}<br>
+                    <span id="arvLabel">ARV</span>: {{ patient_arv }}
                 </div>
             </div>
-            
             <ul class="nav-menu">
-                <li><a onclick="showSection('dashboard')" class="active">DASHBOARD</a></li>
-                <li><a onclick="showSection('messages')">MESSAGES</a></li>
-                <li><a onclick="showSection('medication')">MEDICATION LOG</a></li>
-                <li><a onclick="showSection('voice')">VOICE REPORTS</a></li>
-                <li><a onclick="showSection('hospital')">FIND HOSPITAL</a></li>
-                <li><a onclick="showSection('settings')">SETTINGS</a></li>
+                <li><a onclick="showSection('dashboard')" class="active" id="navDashboard">DASHBOARD</a></li>
+                <li><a onclick="showSection('messages')" id="navMessages">MESSAGES</a></li>
+                <li><a onclick="showSection('medication')" id="navMedication">MEDICATION LOG</a></li>
+                <li><a onclick="showSection('voice')" id="navVoice">VOICE REPORTS</a></li>
+                <li><a onclick="showSection('hospital')" id="navHospital">FIND HOSPITAL</a></li>
+                <li><a onclick="showSection('settings')" id="navSettings">SETTINGS</a></li>
             </ul>
         </div>
         
-        <!-- Main Content -->
         <div class="main-content">
             <div class="top-bar">
                 <h2 class="page-title" id="pageTitle">PATIENT DASHBOARD</h2>
@@ -734,523 +131,139 @@
                         <option value="English" {% if language == 'English' %}selected{% endif %}>English</option>
                         <option value="Kiswahili" {% if language == 'Kiswahili' %}selected{% endif %}>Kiswahili</option>
                     </select>
-                    <button class="refresh-btn" onclick="refreshCurrentSection()">REFRESH</button>
-                    <a href="/logout" class="logout-btn">LOGOUT</a>
+                    <button class="refresh-btn" id="refreshBtn" onclick="refreshCurrentSection()">REFRESH</button>
+                    <a href="/logout" class="logout-btn" id="logoutBtn">LOGOUT</a>
                 </div>
             </div>
             
-            <!-- Dashboard Section -->
             <div id="dashboardSection" class="content-section active">
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-title">ADHERENCE RATE</div>
-                        <div class="stat-value">{{ "%.0f"|format(adherence_percent) }}%</div>
-                        <div class="adherence-bar">
-                            <div class="adherence-fill" style="width: {{ adherence_percent }}%"></div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">TOTAL MESSAGES</div>
-                        <div class="stat-value" id="messageCount">{{ messages|length }}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">CURRENT STREAK</div>
-                        <div class="stat-value">7 DAYS</div>
-                        <div style="font-size: 12px; color: #2E7D32;">Last dose taken</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">NEXT APPOINTMENT</div>
-                        <div class="stat-value">15 JAN</div>
-                        <div style="font-size: 12px; color: #E65100;">In 5 days</div>
-                    </div>
+                    <div class="stat-card"><div class="stat-title" id="statAdherenceTitle">ADHERENCE RATE</div><div class="stat-value">{{ "%.0f"|format(adherence_percent) }}%</div><div class="adherence-bar"><div class="adherence-fill" style="width: {{ adherence_percent }}%"></div></div></div>
+                    <div class="stat-card"><div class="stat-title" id="statMessagesTitle">TOTAL MESSAGES</div><div class="stat-value" id="messageCount">{{ messages|length }}</div></div>
+                    <div class="stat-card"><div class="stat-title" id="statStreakTitle">CURRENT STREAK</div><div class="stat-value">7 DAYS</div><div style="font-size: 12px; color: #2E7D32;" id="lastDoseText">Last dose taken</div></div>
+                    <div class="stat-card"><div class="stat-title" id="statAppointmentTitle">NEXT APPOINTMENT</div><div class="stat-value">15 JAN</div><div style="font-size: 12px; color: #E65100;" id="appointmentText">In 5 days</div></div>
                 </div>
                 
-                <!-- Quick Report Section -->
                 <div class="report-section">
-                    <h3 class="section-title">QUICK HEALTH REPORT</h3>
+                    <h3 class="section-title" id="quickReportTitle">QUICK HEALTH REPORT</h3>
                     <div class="report-buttons">
-                        <button class="report-btn sms-btn" onclick="showSMSReport()">SMS REPORT</button>
-                        <button class="report-btn voice-btn" onclick="showVoiceReport()">VOICE REPORT</button>
+                        <button class="report-btn sms-btn" id="smsReportBtn" onclick="showSMSReport()">SMS REPORT</button>
+                        <button class="report-btn voice-btn" id="voiceReportBtn" onclick="showVoiceReport()">VOICE REPORT</button>
                     </div>
-                    
                     <div id="sms-report">
-                        <textarea id="reportText" class="report-textarea" rows="4" placeholder="Type your health report here...&#10;&#10;Examples:&#10;I have fever and headache&#10;Nina homa na kichwa kinaniuma&#10;Feeling better today"></textarea>
-                        <button class="send-report" onclick="sendReport('sms')">SEND REPORT</button>
+                        <textarea id="reportText" class="report-textarea" id="reportPlaceholder" rows="4" placeholder="Type your health report here...&#10;&#10;Examples:&#10;I have fever and headache&#10;Nina homa na kichwa kinaniuma&#10;Feeling better today"></textarea>
+                        <button class="send-report" id="sendReportBtn" onclick="sendReport('sms')">SEND REPORT</button>
                     </div>
-                    
                     <div id="voice-report" style="display: none;">
-                        <p style="margin-bottom: 15px; color: #6B7280;">Voice report - type your message below to simulate voice recording:</p>
+                        <p style="margin-bottom: 15px; color: #6B7280;" id="voiceTypePrompt">Voice report - type your message below to simulate voice recording:</p>
                         <textarea id="voiceText" class="report-textarea" rows="4" placeholder="Type your voice message..."></textarea>
-                        <button class="send-report" onclick="sendReport('voice')">SUBMIT VOICE REPORT</button>
+                        <button class="send-report" id="submitVoiceBtn" onclick="sendReport('voice')">SUBMIT VOICE REPORT</button>
                     </div>
-                    
                     <div id="responseMessage" class="response-message"></div>
                 </div>
             </div>
             
-            <!-- Messages Section -->
             <div id="messagesSection" class="content-section">
-                <h3 class="section-title">MESSAGE HISTORY</h3>
+                <h3 class="section-title" id="messageHistoryTitle">MESSAGE HISTORY</h3>
                 <div class="messages-section">
                     <div class="message-list" id="messageList">
                         {% for msg in messages %}
                         <div class="message-item">
-                            <div class="message-icon {% if msg[2] == 'incoming' %}incoming{% else %}outgoing{% endif %}">
-                                {% if msg[2] == 'incoming' %}DR{% else %}PT{% endif %}
-                            </div>
+                            <div class="message-icon {% if msg[2] == 'incoming' %}incoming{% else %}outgoing{% endif %}">{% if msg[2] == 'incoming' %}DR{% else %}PT{% endif %}</div>
                             <div class="message-content">
-                                <div class="message-text">
-                                    {{ msg[4] }}
-                                    {% if msg[6] and msg[6] != 'none' %}
-                                    <span class="risk-badge risk-{{ msg[6] }}">{{ msg[6].upper() }}</span>
-                                    {% endif %}
-                                </div>
-                                <div class="message-time">
-                                    {% if msg[2] == 'incoming' %}From: Doctor{% else %}To: Doctor{% endif %} • 
-                                    {{ msg[9][:16] if msg[9] else 'Just now' }}
-                                </div>
+                                <div class="message-text">{{ msg[4] }}{% if msg[6] and msg[6] != 'none' %}<span class="risk-badge risk-{{ msg[6] }}">{{ msg[6].upper() }}</span>{% endif %}</div>
+                                <div class="message-time">{% if msg[2] == 'incoming' %}<span id="fromDoctorText">From: Doctor</span>{% else %}<span id="toDoctorText">To: Doctor</span>{% endif %} • {{ msg[9][:16] if msg[9] else 'Just now' }}</div>
                             </div>
                         </div>
                         {% else %}
-                        <p style="text-align: center; padding: 40px; color: #9CA3AF;">No messages yet. Send a report to get started.</p>
+                        <p style="text-align: center; padding: 40px; color: #9CA3AF;" id="noMessagesText">No messages yet. Send a report to get started.</p>
                         {% endfor %}
                     </div>
                 </div>
             </div>
             
-            <!-- Medication Log Section -->
             <div id="medicationSection" class="content-section">
-                <h3 class="section-title">MEDICATION ADHERENCE LOG</h3>
+                <h3 class="section-title" id="medLogTitle">MEDICATION ADHERENCE LOG</h3>
                 <div class="medication-log">
-                    <div class="medication-card">
-                        <div class="medication-date" id="todayDate">TODAY</div>
-                        <div class="dose-status" id="todayStatus">--</div>
-                        <div id="todayMessage">Not yet taken</div>
-                        <button class="take-dose-btn" onclick="markDoseTaken()">MARK DOSE AS TAKEN</button>
-                    </div>
-                    <div class="medication-card">
-                        <div class="medication-date">YESTERDAY</div>
-                        <div class="dose-status" style="color: #2E7D32;">TAKEN</div>
-                        <div>Dose taken at 8:00 PM</div>
-                    </div>
-                    <div class="medication-card">
-                        <div class="medication-date">DAY BEFORE</div>
-                        <div class="dose-status" style="color: #2E7D32;">TAKEN</div>
-                        <div>Dose taken at 8:05 PM</div>
-                    </div>
+                    <div class="medication-card"><div class="medication-date" id="todayDate">TODAY</div><div class="dose-status" id="todayStatus">--</div><div id="todayMessage">Not yet taken</div><button class="take-dose-btn" id="markDoseBtn" onclick="markDoseTaken()">MARK DOSE AS TAKEN</button></div>
+                    <div class="medication-card"><div class="medication-date" id="yesterdayDate">YESTERDAY</div><div class="dose-status" style="color: #2E7D32;">TAKEN</div><div id="yesterdayMsg">Dose taken at 8:00 PM</div></div>
+                    <div class="medication-card"><div class="medication-date" id="dayBeforeDate">DAY BEFORE</div><div class="dose-status" style="color: #2E7D32;">TAKEN</div><div id="dayBeforeMsg">Dose taken at 8:05 PM</div></div>
                 </div>
-                <div class="reminder-box">
-                    <strong>REMINDER:</strong> Take your ARV medication daily at {{ patient_time }} for best results.
-                </div>
+                <div class="reminder-box" id="reminderBox"><strong id="reminderLabel">REMINDER:</strong> <span id="reminderText">Take your ARV medication daily at {{ patient_time }} for best results.</span></div>
             </div>
             
-            <!-- Voice Reports Section -->
             <div id="voiceSection" class="content-section">
-                <h3 class="section-title">VOICE CALL REPORTING</h3>
+                <h3 class="section-title" id="voiceCallTitle">VOICE CALL REPORTING</h3>
                 <div class="voice-container">
                     <div class="voice-icon">🎤</div>
-                    <p style="margin-bottom: 20px; color: #6B7280;">Simulate a voice call to report your health status</p>
-                    <button class="voice-call-btn" onclick="startVoiceCallSimulation()">START VOICE CALL</button>
+                    <p style="margin-bottom: 20px; color: #6B7280;" id="voiceSimText">Simulate a voice call to report your health status</p>
+                    <button class="voice-call-btn" id="startVoiceCallBtn" onclick="startVoiceCallSimulation()">START VOICE CALL</button>
                     <div id="voiceCallStatus" style="margin-top: 20px; padding: 15px; background: #F9FAFB; border-radius: 10px; display: none;"></div>
                 </div>
             </div>
             
-            <!-- Hospital Locator Section -->
             <div id="hospitalSection" class="content-section">
-                <h3 class="section-title">FIND NEAREST HOSPITAL</h3>
+                <h3 class="section-title" id="hospitalTitle">FIND NEAREST HOSPITAL</h3>
                 <div class="hospital-section">
-                    <p style="margin-bottom: 15px; color: #6B7280;">Select your location to find the nearest hospital (Simulated GIS)</p>
-                    
-                    <div class="form-group">
-                        <label>SELECT YOUR LOCATION / VILLAGE</label>
-                        <select id="villageSelect">
-                            {% for village in villages %}
-                            <option value="{{ village }}" {% if patient_location == village %}selected{% endif %}>
-                                {{ village }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    
-                    <button class="find-hospital-btn" onclick="findHospital()">FIND NEAREST HOSPITAL</button>
-                    
+                    <p style="margin-bottom: 15px; color: #6B7280;" id="hospitalDesc">Select your location to find the nearest hospital (Simulated GIS)</p>
+                    <div class="form-group"><label id="villageLabel">SELECT YOUR LOCATION / VILLAGE</label><select id="villageSelect">{% for village in villages %}<option value="{{ village }}" {% if patient_location == village %}selected{% endif %}>{{ village }}</option>{% endfor %}</select></div>
+                    <button class="find-hospital-btn" id="findHospitalBtn" onclick="findHospital()">FIND NEAREST HOSPITAL</button>
                     <div id="hospitalResult" class="hospital-result"></div>
                 </div>
             </div>
             
-            <!-- Settings Section -->
             <div id="settingsSection" class="content-section">
-                <h3 class="section-title">ACCOUNT SETTINGS</h3>
-                
-                <div class="settings-group">
-                    <div class="settings-label">PERSONAL INFORMATION</div>
-                    <div class="settings-value">Patient ID: <strong>{{ patient_id }}</strong></div>
-                    <div class="settings-value">Location: <strong>{{ patient_location }}</strong></div>
-                    <select id="locationSelect" class="settings-select">
-                        {% for village in villages %}
-                        <option value="{{ village }}" {% if patient_location == village %}selected{% endif %}>{{ village }}</option>
-                        {% endfor %}
-                    </select>
-                    <button class="edit-btn" onclick="updateLocation()">UPDATE LOCATION</button>
-                </div>
-                
-                <div class="settings-group">
-                    <div class="settings-label">MEDICATION SETTINGS</div>
-                    <div class="settings-value">ARV Regimen: <strong>{{ patient_arv }}</strong></div>
-                    <div class="settings-value">Medication Time: <strong>{{ patient_time }} ({{ patient_time }} daily)</strong></div>
-                    <div class="settings-value">Reminder: <strong>Daily SMS reminder enabled</strong></div>
-                </div>
-                
-                <div class="settings-group">
-                    <div class="settings-label">LANGUAGE PREFERENCE</div>
-                    <div class="settings-value">Current Language: <strong>{{ language }}</strong></div>
-                    <select id="langSettingsSelect" class="settings-select">
-                        <option value="English" {% if language == 'English' %}selected{% endif %}>English</option>
-                        <option value="Kiswahili" {% if language == 'Kiswahili' %}selected{% endif %}>Kiswahili</option>
-                    </select>
-                    <button class="edit-btn" onclick="updateLanguageFromSettings()">SAVE LANGUAGE</button>
-                </div>
+                <h3 class="section-title" id="settingsTitle">ACCOUNT SETTINGS</h3>
+                <div class="settings-group"><div class="settings-label" id="personalInfoLabel">PERSONAL INFORMATION</div><div class="settings-value"><span id="patientIdSettingLabel">Patient ID</span>: <strong>{{ patient_id }}</strong></div><div class="settings-value"><span id="locationSettingLabel">Location</span>: <strong>{{ patient_location }}</strong></div><select id="locationSelect" class="settings-select">{% for village in villages %}<option value="{{ village }}" {% if patient_location == village %}selected{% endif %}>{{ village }}</option>{% endfor %}</select><button class="edit-btn" id="updateLocationBtn" onclick="updateLocation()">UPDATE LOCATION</button></div>
+                <div class="settings-group"><div class="settings-label" id="medSettingsLabel">MEDICATION SETTINGS</div><div class="settings-value"><span id="arvLabelSetting">ARV Regimen</span>: <strong>{{ patient_arv }}</strong></div><div class="settings-value"><span id="medTimeLabelSetting">Medication Time</span>: <strong>{{ patient_time }} ({{ patient_time }} daily)</strong></div><div class="settings-value"><span id="reminderSettingLabel">Reminder</span>: <strong id="reminderStatus">Daily SMS reminder enabled</strong></div></div>
+                <div class="settings-group"><div class="settings-label" id="langPrefLabel">LANGUAGE PREFERENCE</div><div class="settings-value"><span id="currentLangLabel">Current Language</span>: <strong>{{ language }}</strong></div><select id="langSettingsSelect" class="settings-select"><option value="English" {% if language == 'English' %}selected{% endif %}>English</option><option value="Kiswahili" {% if language == 'Kiswahili' %}selected{% endif %}>Kiswahili</option></select><button class="edit-btn" id="saveLangBtn" onclick="updateLanguageFromSettings()">SAVE LANGUAGE</button></div>
             </div>
         </div>
     </div>
     
-    <!-- Voice Call Modal -->
-    <div id="voiceModal" class="modal">
-        <div class="modal-content">
-            <h3>VOICE CALL REPORT</h3>
-            <div class="recording-animation"></div>
-            <p id="voiceStatus" style="margin-top: 15px;">Recording... Please speak your message</p>
-            <p style="margin-top: 10px; font-size: 12px; color: #6B7280;">For demo, type your message when prompted</p>
-            <input type="text" id="voiceMessageInput" class="modal-input" placeholder="Type your message...">
-            <button class="modal-btn modal-btn-primary" onclick="submitVoiceCall()">SUBMIT VOICE MESSAGE</button>
-            <button class="modal-btn modal-btn-secondary" onclick="closeVoiceModal()">CANCEL</button>
-        </div>
-    </div>
+    <div id="voiceModal" class="modal"><div class="modal-content"><h3 id="voiceModalTitle">VOICE CALL REPORT</h3><div class="recording-animation"></div><p id="voiceStatus" style="margin-top: 15px;">Recording... Please speak your message</p><p style="margin-top: 10px; font-size: 12px; color: #6B7280;" id="modalHint">For demo, type your message when prompted</p><input type="text" id="voiceMessageInput" class="modal-input" placeholder="Type your message..."><button class="modal-btn modal-btn-primary" id="submitVoiceModalBtn" onclick="submitVoiceCall()">SUBMIT VOICE MESSAGE</button><button class="modal-btn modal-btn-secondary" id="cancelVoiceModalBtn" onclick="closeVoiceModal()">CANCEL</button></div></div>
     
     <script>
-        // Navigation
-        function showSection(sectionName) {
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-menu a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            let sectionId = sectionName + 'Section';
-            document.getElementById(sectionId).classList.add('active');
-            
-            const titles = {
-                'dashboard': 'PATIENT DASHBOARD',
-                'messages': 'MESSAGES',
-                'medication': 'MEDICATION LOG',
-                'voice': 'VOICE REPORTS',
-                'hospital': 'FIND HOSPITAL',
-                'settings': 'SETTINGS'
-            };
-            document.getElementById('pageTitle').innerText = titles[sectionName] || 'AFYAHIV CARE';
-            event.target.classList.add('active');
-        }
+        const translations = {
+            'PATIENT DASHBOARD': 'DASHIBODI YA MGONJWA', 'DASHBOARD': 'DASHIBODI', 'MESSAGES': 'UJUMBE', 'MEDICATION LOG': 'REKODI YA DAWA', 'VOICE REPORTS': 'RIPOTI ZA SAUTI', 'FIND HOSPITAL': 'TAFUTA HOSPITALI', 'SETTINGS': 'MIPANGILIO', 'REFRESH': 'ONYESHA UPYA', 'LOGOUT': 'TOKA', 'ADHERENCE RATE': 'KIWANGO CHA UZINGATIAJI', 'TOTAL MESSAGES': 'JUMLA YA UJUMBE', 'CURRENT STREAK': 'MSURURU WA SASA', 'NEXT APPOINTMENT': 'UTEuzi UJAO', 'QUICK HEALTH REPORT': 'RIPOTI YA AFYA YA HARAKA', 'SMS REPORT': 'RIPOTI KWA SMS', 'VOICE REPORT': 'RIPOTI KWA SAUTI', 'SEND REPORT': 'TUMA RIPOTI', 'MESSAGE HISTORY': 'HISTORIA YA UJUMBE', 'From: Doctor': 'Kutoka: Daktari', 'To: Doctor': 'Kwa: Daktari', 'ACCOUNT SETTINGS': 'MIPANGILIO YA AKAUNTI', 'PERSONAL INFORMATION': 'TAARIFA ZA BINAFSI', 'Patient ID': 'Kitambulisho cha Mgonjwa', 'Location': 'Eneo', 'MEDICATION SETTINGS': 'MIPANGILIO YA DAWA', 'ARV Regimen': 'Mpango wa ARV', 'Medication Time': 'Saa ya Dawa', 'Reminder': 'Kumbusho', 'Daily SMS reminder enabled': 'Kumbusho la SMS la kila siku limewashwa', 'LANGUAGE PREFERENCE': 'UPENDELEO WA LUGHA', 'Current Language': 'Lugha ya Sasa', 'UPDATE LOCATION': 'SASISHA ENEO', 'SAVE LANGUAGE': 'HIFADHI LUGHA', 'English': 'Kiingereza', 'Kiswahili': 'Kiswahili', 'Voice Call Reporting': 'Kuripoti kwa Simu ya Sauti', 'START VOICE CALL': 'ANZA SIMU', 'FIND NEAREST HOSPITAL': 'TAFUTA HOSPITALI ILIYO KARIBU', 'SELECT YOUR LOCATION / VILLAGE': 'CHAGUA ENEO/KIJIJI CHAKO', 'NEAREST HOSPITAL': 'HOSPITALI ILIYO KARIBU', 'Name': 'Jina', 'Distance': 'Umbali', 'Travel Time': 'Muda wa Kusafiri', 'Phone': 'Simu', 'Address': 'Anwani', 'Hours': 'Saa', 'Directions': 'Maelekezo', 'SUBMIT VOICE REPORT': 'WASILISHA RIPOTI YA SAUTI', 'CANCEL': 'GHairi', 'TODAY': 'LEO', 'YESTERDAY': 'JANA', 'DAY BEFORE': 'JUUZI', 'TAKEN': 'IMECHUKULIWA', 'MARK DOSE AS TAKEN': 'WEKA ALAMA YA KUCHUKUA DAWA', 'REMINDER': 'KUMBUSHO', 'Take your ARV medication daily at': 'Chukua dawa yako ya ARV kila siku saa', 'for best results': 'kwa matokeo bora', 'Not yet taken': 'Bado haijachukuliwa', 'Dose taken at': 'Dawa imechukuliwa saa', 'Last dose taken': 'Dawa ya mwisho imechukuliwa', 'In 5 days': 'Baada ya siku 5', 'No messages yet. Send a report to get started.': 'Hakuna ujumbe bado. Tuma ripoti kuanza.', 'Select your location to find the nearest hospital': 'Chagua eneo lako kupata hospitali iliyo karibu', 'Finding nearest hospital': 'Kutafuta hospitali iliyo karibu', 'Error finding hospital. Please try again.': 'Hitilafu katika kutafuta hospitali. Jaribu tena.', 'Network error. Please try again.': 'Hitilafu ya mtandao. Jaribu tena.', 'Report sent successfully!': 'Ripoti imetumwa kikamilifu!', 'Error sending report': 'Hitilafu katika kutuma ripoti', 'Voice report processed!': 'Ripoti ya sauti imeshughulikiwa!', 'Location updated to:': 'Eneo limebadilishwa hadi:', 'Language updated successfully. Page will reload.': 'Lugha imebadilishwa kikamilifu. Ukurasa utarejea.', 'Error updating language': 'Hitilafu katika kubadilisha lugha', 'Recording... Please speak your message': 'Inarekodi... Tafadhali sema ujumbe wako', 'SUBMIT VOICE MESSAGE': 'WASILISHA UJUMBE WA SAUTI', 'Medication marked as taken!': 'Dawa imewekwa alama kama imechukuliwa!', 'Please enter your health report': 'Tafadhali ingiza ripoti yako ya afya'
+        };
         
-        function refreshCurrentSection() {
-            location.reload();
-        }
+        let currentLanguage = '{{ language }}';
         
-        // Language Change Function
-        async function changeLanguage() {
-            const language = document.getElementById('languageSelect').value;
-            
-            try {
-                const response = await fetch('/set_language', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ language: language })
-                });
-                
-                if (response.ok) {
-                    location.reload();
-                }
-            } catch (error) {
-                console.error('Error changing language:', error);
-            }
-        }
-        
-        async function updateLanguageFromSettings() {
-            const language = document.getElementById('langSettingsSelect').value;
-            
-            try {
-                const response = await fetch('/set_language', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ language: language })
-                });
-                
-                if (response.ok) {
-                    alert('Language updated successfully. Page will reload.');
-                    location.reload();
-                }
-            } catch (error) {
-                alert('Error updating language');
-            }
-        }
-        
-        // Send Report
-        async function sendReport(type) {
-            let reportText;
-            if (type === 'sms') {
-                reportText = document.getElementById('reportText').value;
-            } else {
-                reportText = document.getElementById('voiceText').value;
-            }
-            
-            if (!reportText.trim()) {
-                alert('Please enter your health report');
-                return;
-            }
-            
-            const responseDiv = document.getElementById('responseMessage');
-            responseDiv.style.display = 'block';
-            responseDiv.innerHTML = 'Sending report...';
-            responseDiv.style.background = '#E3F2FD';
-            
-            try {
-                const formData = new FormData();
-                formData.append('report_text', reportText);
-                formData.append('report_type', type);
-                
-                const response = await fetch('/patient/send_report', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                if (result.status === 'processed') {
-                    responseDiv.innerHTML = 'Report sent successfully!<br>Response: ' + result.response;
-                    responseDiv.style.background = '#E8F5E9';
-                    responseDiv.style.color = '#2E7D32';
-                    
-                    if (type === 'sms') document.getElementById('reportText').value = '';
-                    else document.getElementById('voiceText').value = '';
-                    
-                    setTimeout(() => refreshMessages(), 1000);
-                    setTimeout(() => {
-                        responseDiv.style.display = 'none';
-                    }, 5000);
-                } else {
-                    responseDiv.innerHTML = 'Error sending report. Please try again.';
-                    responseDiv.style.background = '#FFEBEE';
-                    responseDiv.style.color = '#C62828';
-                }
-            } catch (error) {
-                responseDiv.innerHTML = 'Network error. Please try again.';
-                responseDiv.style.background = '#FFEBEE';
-            }
-        }
-        
-        // Refresh Messages
-        async function refreshMessages() {
-            try {
-                const response = await fetch('/patient/messages');
-                const messages = await response.json();
-                
-                const messageList = document.getElementById('messageList');
-                const messageCount = document.getElementById('messageCount');
-                
-                if (messageCount) messageCount.textContent = messages.length;
-                
-                if (messages.length === 0) {
-                    messageList.innerHTML = '<p style="text-align: center; padding: 40px; color: #9CA3AF;">No messages yet.</p>';
-                    return;
-                }
-                
-                let html = '';
-                for (const msg of messages) {
-                    const directionClass = msg.direction === 'incoming' ? 'incoming' : 'outgoing';
-                    const icon = msg.direction === 'incoming' ? 'DR' : 'PT';
-                    const fromTo = msg.direction === 'incoming' ? 'From: Doctor' : 'To: Doctor';
-                    
-                    let riskHtml = '';
-                    if (msg.risk_level && msg.risk_level !== 'none') {
-                        riskHtml = '<span class="risk-badge risk-' + msg.risk_level + '">' + msg.risk_level.toUpperCase() + '</span>';
+        function translatePage() {
+            if (currentLanguage !== 'Kiswahili') return;
+            document.querySelectorAll('[id]').forEach(el => {
+                const text = el.innerText;
+                if (translations[text]) el.innerText = translations[text];
+                else if (text && text.length < 100 && text !== el.placeholder) {
+                    for (let [eng, swa] of Object.entries(translations)) {
+                        if (text.includes(eng)) { el.innerText = text.replace(eng, swa); break; }
                     }
-                    
-                    html += '<div class="message-item">' +
-                        '<div class="message-icon ' + directionClass + '">' + icon + '</div>' +
-                        '<div class="message-content">' +
-                            '<div class="message-text">' + escapeHtml(msg.content) + ' ' + riskHtml + '</div>' +
-                            '<div class="message-time">' + fromTo + ' • ' + (msg.timestamp ? msg.timestamp.substring(0, 16) : 'Just now') + '</div>' +
-                        '</div>' +
-                    '</div>';
                 }
-                messageList.innerHTML = html;
-            } catch (error) {
-                console.error('Error refreshing messages:', error);
-            }
+            });
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.placeholder && translations[el.placeholder]) el.placeholder = translations[el.placeholder];
+            });
         }
         
-        // Hospital Locator Function
-        async function findHospital() {
-            const village = document.getElementById('villageSelect').value;
-            const resultDiv = document.getElementById('hospitalResult');
-            
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = 'Finding nearest hospital...';
-            resultDiv.style.background = '#E3F2FD';
-            
-            try {
-                const formData = new FormData();
-                formData.append('village', village);
-                
-                const response = await fetch('/patient/find_hospital', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    const h = data.hospital;
-                    resultDiv.innerHTML = '<div style="background: #E8F5E9; border-radius: 10px; padding: 15px; border-left: 3px solid #1e8e3e;">' +
-                        '<h4 style="color: #1e8e3e; margin-bottom: 12px;">NEAREST HOSPITAL</h4>' +
-                        '<p><strong>Name:</strong> ' + h.name + '</p>' +
-                        '<p><strong>Location:</strong> ' + h.village + '</p>' +
-                        '<p><strong>Distance:</strong> ' + h.distance_km + ' km</p>' +
-                        '<p><strong>Travel Time:</strong> ' + h.travel_time_minutes + ' minutes</p>' +
-                        '<p><strong>Phone:</strong> ' + h.phone + '</p>' +
-                        '<p><strong>Address:</strong> ' + h.address + '</p>' +
-                        '<p><strong>Hours:</strong> ' + h.opening_hours + '</p>' +
-                        '<p><strong>Directions:</strong><br>' + h.directions + '</p>' +
-                    '</div>';
-                    resultDiv.style.background = '#E8F5E9';
-                } else {
-                    resultDiv.innerHTML = '<div style="background: #FFEBEE; border-radius: 10px; padding: 15px; color: #C62828;">Error: ' + data.message + '</div>';
-                    resultDiv.style.background = '#FFEBEE';
-                }
-            } catch (error) {
-                resultDiv.innerHTML = '<div style="background: #FFEBEE; border-radius: 10px; padding: 15px; color: #C62828;">Error finding hospital. Please try again.</div>';
-                resultDiv.style.background = '#FFEBEE';
-            }
-        }
-        
-        // Update Location
-        async function updateLocation() {
-            const newLocation = document.getElementById('locationSelect').value;
-            
-            try {
-                const formData = new FormData();
-                formData.append('location', newLocation);
-                
-                const response = await fetch('/patient/update_location', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    alert('Location updated to: ' + newLocation);
-                    location.reload();
-                }
-            } catch (error) {
-                alert('Error updating location');
-            }
-        }
-        
-        // Mark Dose Taken
-        async function markDoseTaken() {
-            const todayStatus = document.getElementById('todayStatus');
-            const todayMessage = document.getElementById('todayMessage');
-            
-            todayStatus.innerHTML = 'TAKEN';
-            todayStatus.style.color = '#2E7D32';
-            todayMessage.innerHTML = 'Dose taken! Great job!';
-            
-            alert('Medication marked as taken! Your adherence record has been updated.');
-            
-            setTimeout(() => location.reload(), 1000);
-        }
-        
-        // Voice Call Functions
-        function startVoiceCallSimulation() {
-            document.getElementById('voiceModal').style.display = 'flex';
-            document.getElementById('voiceStatus').innerHTML = 'Recording... Speak your message in English or Kiswahili';
-            document.getElementById('voiceMessageInput').value = '';
-        }
-        
-        async function submitVoiceCall() {
-            const message = document.getElementById('voiceMessageInput').value;
-            if (!message.trim()) {
-                alert('Please enter your voice message');
-                return;
-            }
-            
-            closeVoiceModal();
-            
-            const responseDiv = document.getElementById('responseMessage');
-            responseDiv.style.display = 'block';
-            responseDiv.innerHTML = 'Processing voice report...';
-            responseDiv.style.background = '#E3F2FD';
-            
-            try {
-                const formData = new FormData();
-                formData.append('report_text', message);
-                formData.append('report_type', 'voice');
-                
-                const response = await fetch('/patient/send_report', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                responseDiv.innerHTML = 'Voice report processed!<br>Response: ' + result.response;
-                responseDiv.style.background = '#E8F5E9';
-                setTimeout(() => refreshMessages(), 1000);
-                setTimeout(() => {
-                    responseDiv.style.display = 'none';
-                }, 5000);
-            } catch (error) {
-                responseDiv.innerHTML = 'Error processing voice report.';
-                responseDiv.style.background = '#FFEBEE';
-            }
-        }
-        
-        function closeVoiceModal() {
-            document.getElementById('voiceModal').style.display = 'none';
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        function showSMSReport() {
-            document.getElementById('sms-report').style.display = 'block';
-            document.getElementById('voice-report').style.display = 'none';
-        }
-        
-        function showVoiceReport() {
-            document.getElementById('sms-report').style.display = 'none';
-            document.getElementById('voice-report').style.display = 'block';
-        }
-        
-        // Set current date
-        const today = new Date();
-        const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        const dateElement = document.getElementById('todayDate');
-        if (dateElement) {
-            dateElement.innerHTML = 'TODAY (' + dateStr.toUpperCase() + ')';
-        }
-        
-        // Auto-refresh messages every 10 seconds
-        setInterval(() => {
-            const activeSection = document.querySelector('.content-section.active');
-            if (activeSection && activeSection.id === 'messagesSection') {
-                refreshMessages();
-            }
-        }, 10000);
+        function changeLanguage() { const lang = document.getElementById('languageSelect').value; fetch('/set_language', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ language: lang }) }).then(() => location.reload()); }
+        function updateLanguageFromSettings() { const lang = document.getElementById('langSettingsSelect').value; fetch('/set_language', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ language: lang }) }).then(() => { alert(translations['Language updated successfully. Page will reload.'] || 'Language updated'); location.reload(); }); }
+        function refreshCurrentSection() { location.reload(); }
+        function showSection(sectionName) { document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active')); document.querySelectorAll('.nav-menu a').forEach(l => l.classList.remove('active')); document.getElementById(sectionName + 'Section').classList.add('active'); event.target.classList.add('active'); const titles = { 'dashboard': 'PATIENT DASHBOARD', 'messages': 'MESSAGES', 'medication': 'MEDICATION LOG', 'voice': 'VOICE REPORTS', 'hospital': 'FIND HOSPITAL', 'settings': 'SETTINGS' }; document.getElementById('pageTitle').innerText = titles[sectionName] || 'AFYAHIV CARE'; if (currentLanguage === 'Kiswahili') translatePage(); }
+        async function sendReport(type) { let reportText = type === 'sms' ? document.getElementById('reportText').value : document.getElementById('voiceText').value; if (!reportText.trim()) { alert(translations['Please enter your health report'] || 'Please enter your health report'); return; } const responseDiv = document.getElementById('responseMessage'); responseDiv.style.display = 'block'; responseDiv.innerHTML = 'Sending report...'; responseDiv.style.background = '#E3F2FD'; try { const formData = new FormData(); formData.append('report_text', reportText); formData.append('report_type', type); const response = await fetch('/patient/send_report', { method: 'POST', body: formData }); const result = await response.json(); if (result.status === 'processed') { responseDiv.innerHTML = (translations['Report sent successfully!'] || 'Report sent successfully!') + '<br>Response: ' + result.response; responseDiv.style.background = '#E8F5E9'; if (type === 'sms') document.getElementById('reportText').value = ''; else document.getElementById('voiceText').value = ''; setTimeout(() => refreshMessages(), 1000); setTimeout(() => responseDiv.style.display = 'none', 5000); } else { responseDiv.innerHTML = (translations['Error sending report'] || 'Error sending report'); responseDiv.style.background = '#FFEBEE'; } } catch (error) { responseDiv.innerHTML = translations['Network error. Please try again.']; responseDiv.style.background = '#FFEBEE'; } }
+        async function refreshMessages() { try { const response = await fetch('/patient/messages'); const messages = await response.json(); const messageList = document.getElementById('messageList'); if (messages.length === 0) { messageList.innerHTML = '<p style="text-align: center; padding: 40px; color: #9CA3AF;">' + (translations['No messages yet. Send a report to get started.'] || 'No messages yet') + '</p>'; return; } let html = ''; for (const msg of messages) { const directionClass = msg.direction === 'incoming' ? 'incoming' : 'outgoing'; const icon = msg.direction === 'incoming' ? 'DR' : 'PT'; const fromTo = msg.direction === 'incoming' ? (translations['From: Doctor'] || 'From: Doctor') : (translations['To: Doctor'] || 'To: Doctor'); let riskHtml = ''; if (msg.risk_level && msg.risk_level !== 'none') riskHtml = '<span class="risk-badge risk-' + msg.risk_level + '">' + msg.risk_level.toUpperCase() + '</span>'; html += '<div class="message-item"><div class="message-icon ' + directionClass + '">' + icon + '</div><div class="message-content"><div class="message-text">' + escapeHtml(msg.content) + ' ' + riskHtml + '</div><div class="message-time">' + fromTo + ' • ' + (msg.timestamp ? msg.timestamp.substring(0, 16) : 'Just now') + '</div></div></div>'; } messageList.innerHTML = html; } catch (error) { console.error('Error refreshing messages:', error); } }
+        async function findHospital() { const village = document.getElementById('villageSelect').value; const resultDiv = document.getElementById('hospitalResult'); resultDiv.style.display = 'block'; resultDiv.innerHTML = (translations['Finding nearest hospital'] || 'Finding nearest hospital...'); resultDiv.style.background = '#E3F2FD'; try { const formData = new FormData(); formData.append('village', village); const response = await fetch('/patient/find_hospital', { method: 'POST', body: formData }); const data = await response.json(); if (data.status === 'success') { const h = data.hospital; resultDiv.innerHTML = '<div style="background: #E8F5E9; border-radius: 10px; padding: 15px; border-left: 3px solid #1e8e3e;"><h4 style="color: #1e8e3e; margin-bottom: 12px;">' + (translations['NEAREST HOSPITAL'] || 'NEAREST HOSPITAL') + '</h4><p><strong>' + (translations['Name'] || 'Name') + ':</strong> ' + h.name + '</p><p><strong>' + (translations['Distance'] || 'Distance') + ':</strong> ' + h.distance_km + ' km</p><p><strong>' + (translations['Travel Time'] || 'Travel Time') + ':</strong> ' + h.travel_time_minutes + ' minutes</p><p><strong>' + (translations['Phone'] || 'Phone') + ':</strong> ' + h.phone + '</p><p><strong>' + (translations['Address'] || 'Address') + ':</strong> ' + h.address + '</p><p><strong>' + (translations['Directions'] || 'Directions') + ':</strong><br>' + h.directions + '</p></div>'; resultDiv.style.background = '#E8F5E9'; } else { resultDiv.innerHTML = '<div style="background: #FFEBEE; border-radius: 10px; padding: 15px; color: #C62828;">Error: ' + data.message + '</div>'; } } catch (error) { resultDiv.innerHTML = '<div style="background: #FFEBEE; border-radius: 10px; padding: 15px; color: #C62828;">' + (translations['Error finding hospital. Please try again.'] || 'Error finding hospital') + '</div>'; } }
+        async function updateLocation() { const newLocation = document.getElementById('locationSelect').value; try { const formData = new FormData(); formData.append('location', newLocation); const response = await fetch('/patient/update_location', { method: 'POST', body: formData }); const result = await response.json(); if (result.status === 'success') { alert((translations['Location updated to:'] || 'Location updated to:') + ' ' + newLocation); location.reload(); } } catch (error) { alert('Error updating location'); } }
+        async function markDoseTaken() { document.getElementById('todayStatus').innerHTML = 'TAKEN'; document.getElementById('todayStatus').style.color = '#2E7D32'; document.getElementById('todayMessage').innerHTML = (translations['Dose taken at'] || 'Dose taken at') + ' ' + new Date().toLocaleTimeString(); alert(translations['Medication marked as taken!'] || 'Medication marked as taken!'); setTimeout(() => location.reload(), 1000); }
+        function startVoiceCallSimulation() { document.getElementById('voiceModal').style.display = 'flex'; document.getElementById('voiceStatus').innerHTML = translations['Recording... Please speak your message'] || 'Recording... Please speak your message'; document.getElementById('voiceMessageInput').value = ''; }
+        async function submitVoiceCall() { const message = document.getElementById('voiceMessageInput').value; if (!message.trim()) { alert('Please enter your voice message'); return; } closeVoiceModal(); const responseDiv = document.getElementById('responseMessage'); responseDiv.style.display = 'block'; responseDiv.innerHTML = 'Processing voice report...'; responseDiv.style.background = '#E3F2FD'; try { const formData = new FormData(); formData.append('report_text', message); formData.append('report_type', 'voice'); const response = await fetch('/patient/send_report', { method: 'POST', body: formData }); const result = await response.json(); responseDiv.innerHTML = (translations['Voice report processed!'] || 'Voice report processed!') + '<br>Response: ' + result.response; responseDiv.style.background = '#E8F5E9'; setTimeout(() => refreshMessages(), 1000); setTimeout(() => responseDiv.style.display = 'none', 5000); } catch (error) { responseDiv.innerHTML = translations['Network error. Please try again.']; responseDiv.style.background = '#FFEBEE'; } }
+        function closeVoiceModal() { document.getElementById('voiceModal').style.display = 'none'; }
+        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+        function showSMSReport() { document.getElementById('sms-report').style.display = 'block'; document.getElementById('voice-report').style.display = 'none'; }
+        function showVoiceReport() { document.getElementById('sms-report').style.display = 'none'; document.getElementById('voice-report').style.display = 'block'; }
+        const today = new Date(); const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); const dateElement = document.getElementById('todayDate'); if (dateElement) dateElement.innerHTML = (translations['TODAY'] || 'TODAY') + ' (' + dateStr.toUpperCase() + ')';
+        setInterval(() => { const activeSection = document.querySelector('.content-section.active'); if (activeSection && activeSection.id === 'messagesSection') refreshMessages(); }, 10000);
+        if (currentLanguage === 'Kiswahili') translatePage();
     </script>
 </body>
 </html>
