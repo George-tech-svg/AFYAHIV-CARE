@@ -21,13 +21,12 @@
         .login-form.active { display: block; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; color: #333; font-weight: 500; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
         button { width: 100%; padding: 12px; background: #0D5C2E; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
         button:hover { background: #064E3B; }
         .error { background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
         .info-text { margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px; font-size: 12px; text-align: center; color: #666; }
         .security-badge { display: inline-block; background: #0D5C2E; color: white; padding: 5px 10px; border-radius: 20px; font-size: 10px; margin-top: 10px; }
-        .language-selector { margin-bottom: 20px; }
         @media (max-width: 768px) { .container { flex-direction: column; } .info-panel { padding: 20px; } .info-panel h1 { font-size: 24px; } }
     </style>
 </head>
@@ -48,44 +47,28 @@
             <div class="error">{{ error }}</div>
             {% endif %}
             
-            <!-- Patient Login Form -->
             <form method="POST" action="/patient/login" class="login-form active" id="patientForm">
                 <div class="form-group">
-                    <label id="phoneLabelPatient">PHONE NUMBER</label>
-                    <input type="tel" name="phone" id="phoneInput" placeholder="Enter your phone number" required>
+                    <label>PHONE NUMBER</label>
+                    <input type="tel" name="phone" placeholder="Enter your phone number" required>
                 </div>
                 <div class="form-group">
-                    <label id="patientIdLabelPatient">PATIENT ID</label>
-                    <input type="text" name="patient_id" id="patientIdInput" placeholder="Enter your Patient ID (e.g., HIV001)" required>
+                    <label>PATIENT ID</label>
+                    <input type="text" name="patient_id" placeholder="Enter your Patient ID (e.g., HIV001)" required>
                 </div>
-                <div class="form-group language-selector">
-                    <label id="languageLabel">SELECT LANGUAGE / CHAGUA LUGHA</label>
-                    <select name="language" id="languageSelect">
-                        <option value="English">English</option>
-                        <option value="Kiswahili">Kiswahili</option>
-                    </select>
-                </div>
-                <button type="submit" id="loginBtnPatient">ACCESS PATIENT DASHBOARD</button>
+                <button type="submit">ACCESS PATIENT DASHBOARD</button>
             </form>
             
-            <!-- Doctor Login Form -->
             <form method="POST" action="/doctor/login" class="login-form" id="doctorForm">
                 <div class="form-group">
-                    <label id="usernameLabel">USERNAME</label>
+                    <label>USERNAME</label>
                     <input type="text" name="username" placeholder="Enter your username" required>
                 </div>
                 <div class="form-group">
-                    <label id="passwordLabel">PASSWORD</label>
+                    <label>PASSWORD</label>
                     <input type="password" name="password" placeholder="Enter your password" required>
                 </div>
-                <div class="form-group language-selector">
-                    <label id="doctorLanguageLabel">SELECT LANGUAGE / CHAGUA LUGHA</label>
-                    <select name="doctor_language" id="doctorLanguageSelect">
-                        <option value="English">English</option>
-                        <option value="Kiswahili">Kiswahili</option>
-                    </select>
-                </div>
-                <button type="submit" id="loginBtnDoctor">ACCESS DOCTOR DASHBOARD</button>
+                <button type="submit">ACCESS DOCTOR DASHBOARD</button>
             </form>
             
             <div class="info-text">
@@ -109,50 +92,6 @@
                 tabs[1].classList.add('active');
                 document.getElementById('doctorForm').classList.add('active');
             }
-        }
-        
-        const languageSelect = document.getElementById('languageSelect');
-        const phoneLabelPatient = document.getElementById('phoneLabelPatient');
-        const patientIdLabelPatient = document.getElementById('patientIdLabelPatient');
-        const languageLabel = document.getElementById('languageLabel');
-        const loginBtnPatient = document.getElementById('loginBtnPatient');
-        
-        if (languageSelect) {
-            languageSelect.addEventListener('change', function() {
-                if (this.value === 'Kiswahili') {
-                    phoneLabelPatient.textContent = 'NAMBARI YA SIMU';
-                    patientIdLabelPatient.textContent = 'KITAMBULISHO CHA MGONJWA';
-                    languageLabel.textContent = 'CHAGUA LUGHA';
-                    loginBtnPatient.textContent = 'INGIA DASHIBODI YA MGONJWA';
-                } else {
-                    phoneLabelPatient.textContent = 'PHONE NUMBER';
-                    patientIdLabelPatient.textContent = 'PATIENT ID';
-                    languageLabel.textContent = 'SELECT LANGUAGE';
-                    loginBtnPatient.textContent = 'ACCESS PATIENT DASHBOARD';
-                }
-            });
-        }
-        
-        const doctorLanguageSelect = document.getElementById('doctorLanguageSelect');
-        const usernameLabel = document.getElementById('usernameLabel');
-        const passwordLabel = document.getElementById('passwordLabel');
-        const doctorLanguageLabel = document.getElementById('doctorLanguageLabel');
-        const loginBtnDoctor = document.getElementById('loginBtnDoctor');
-        
-        if (doctorLanguageSelect) {
-            doctorLanguageSelect.addEventListener('change', function() {
-                if (this.value === 'Kiswahili') {
-                    usernameLabel.textContent = 'JINA LA MTUMIAJI';
-                    passwordLabel.textContent = 'NYWILA';
-                    doctorLanguageLabel.textContent = 'CHAGUA LUGHA';
-                    loginBtnDoctor.textContent = 'INGIA DASHIBODI YA DOKTA';
-                } else {
-                    usernameLabel.textContent = 'USERNAME';
-                    passwordLabel.textContent = 'PASSWORD';
-                    doctorLanguageLabel.textContent = 'SELECT LANGUAGE';
-                    loginBtnDoctor.textContent = 'ACCESS DOCTOR DASHBOARD';
-                }
-            });
         }
     </script>
 </body>
