@@ -1,4 +1,4 @@
-# app.py - Complete AFYAHIV CARE with Patient Anonymization
+# app.py - Complete AFYAHIV CARE with Language Selection
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from database import Database
 from ai_engine import AIEngine
@@ -8,23 +8,18 @@ from datetime import datetime, timedelta
 from functools import wraps
 import uuid
 import re
+import json
 
 app = Flask(__name__)
 app.secret_key = "afyahiv-care-secret-key-2024"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=15)
 
-# Initialize components
 db = Database()
 ai_engine = AIEngine()
 sms_handler = SMSHandler(ai_engine, db)
 voice_simulator = VoiceSimulator(ai_engine, sms_handler, db)
 
-# ============================================================
-# HELPER FUNCTION
-# ============================================================
-
 def format_phone(phone):
-    """Convert any phone input to +254XXXXXXXXX format"""
     phone = re.sub(r'\D', '', str(phone))
     if phone.startswith('0'):
         phone = phone[1:]
@@ -32,7 +27,6 @@ def format_phone(phone):
         phone = phone[3:]
     return f"+254{phone}"
 
-# Session required decorator
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -42,7 +36,27 @@ def login_required(f):
     return decorated_function
 
 # ============================================================
-# PATIENT DASHBOARD ROUTES
+# LANGUAGE ROUTES
+# ============================================================
+
+@app.route('/doctor/set_language', methods=['POST'])
+def set_doctor_language():
+    if session.get('user_type') != 'doctor':
+        return jsonify({"error": "Unauthorized"}), 401
+    data = request.get_json()
+    session['doctor_language'] = data.get('language', 'English')
+    return jsonify({"status": "success"})
+
+@app.route('/patient/set_language', methods=['POST'])
+def set_patient_language():
+    if session.get('user_type') != 'patient':
+        return jsonify({"error": "Unauthorized"}), 401
+    data = request.get_json()
+    session['patient_language'] = data.get('language', 'English')
+    return jsonify({"status": "success"})
+
+# ============================================================
+# HOME & LOGIN
 # ============================================================
 
 @app.route('/')
@@ -53,8 +67,8 @@ def index():
 def patient_login():
     phone = request.form.get('phone')
     patient_id = request.form.get('patient_id')
+    selected_language = request.form.get('language', 'English')
     
-    # Check failed attempts
     failed_count = db.get_failed_attempts(phone_number=phone)
     if failed_count >= 5:
         return render_template('login.html', error="Account locked. Too many failed attempts. Try again later.")
@@ -64,18 +78,44 @@ def patient_login():
         db.clear_failed_attempts(phone_number=phone)
         session['user_type'] = 'patient'
         session['patient_id'] = patient_id
-        # Do NOT store patient name in session - anonymous
         session['patient_phone'] = patient[3]
-        session['patient_language'] = patient[4]
         session['patient_location'] = patient[5]
+        session['patient_language'] = selected_language
         session.permanent = True
-        # Audit log (name not stored in log)
         db.add_audit_log('patient', patient_id, 'login', f'Patient {patient_id} logged in')
         return redirect(url_for('patient_dashboard'))
     
-    # Record failed attempt
     db.record_failed_login(phone_number=phone)
     return render_template('login.html', error="Invalid credentials")
+
+@app.route('/doctor/login', methods=['POST'])
+def doctor_login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    selected_language = request.form.get('doctor_language', 'English')
+    
+    failed_count = db.get_failed_attempts(username=username)
+    if failed_count >= 5:
+        return render_template('login.html', error="Account locked. Too many failed attempts. Try again later.")
+    
+    provider = db.authenticate_provider(username, password)
+    if provider:
+        db.clear_failed_attempts(username=username)
+        session['user_type'] = 'doctor'
+        session['doctor_id'] = provider[0]
+        session['doctor_name'] = provider[3]
+        session['hospital'] = provider[5]
+        session['doctor_language'] = selected_language
+        session.permanent = True
+        db.add_audit_log('doctor', username, 'login', f'Doctor {provider[3]} logged in')
+        return redirect(url_for('doctor_dashboard'))
+    
+    db.record_failed_login(username=username)
+    return render_template('login.html', error="Invalid doctor credentials")
+
+# ============================================================
+# PATIENT DASHBOARD
+# ============================================================
 
 @app.route('/patient/dashboard')
 @login_required
@@ -89,7 +129,6 @@ def patient_dashboard():
     taken, total = db.get_adherence_stats(patient_id)
     adherence_percent = (taken / total * 100) if total > 0 else 85
     
-    # Safe unread count
     unread = 0
     for m in messages:
         try:
@@ -98,21 +137,20 @@ def patient_dashboard():
         except (IndexError, TypeError):
             pass
     
-    # Get all villages for dropdown
     villages = db.get_all_villages()
+    current_language = session.get('patient_language', 'English')
     
-    # Pass only patient_id, NOT name
     return render_template('patient_dashboard.html',
                          patient_id=patient_id,
                          patient_location=patient[5] if patient else 'Unknown',
                          patient_arv=patient[6] if patient else 'TLD',
                          patient_time=patient[7] if patient else '20:00',
-                         patient_language=patient[4] if patient else 'English',
                          messages=messages[:20],
                          adherence_percent=adherence_percent,
                          unread_count=unread,
                          villages=villages,
-                         session=session)
+                         session=session,
+                         language=current_language)
 
 @app.route('/patient/send_report', methods=['POST'])
 @login_required
@@ -122,7 +160,6 @@ def patient_send_report():
     
     report_text = request.form.get('report_text')
     report_type = request.form.get('report_type', 'sms')
-    
     patient_id = session['patient_id']
     patient = db.get_patient_by_id(patient_id)
     
@@ -162,10 +199,6 @@ def patient_messages():
     
     return jsonify(message_list)
 
-# ============================================================
-# GIS HOSPITAL LOCATOR ROUTES
-# ============================================================
-
 @app.route('/patient/find_hospital', methods=['POST'])
 @login_required
 def patient_find_hospital():
@@ -182,11 +215,7 @@ def patient_find_hospital():
     hospital = db.get_nearest_hospital(selected_village)
     
     if hospital:
-        return jsonify({
-            'status': 'success',
-            'hospital': hospital,
-            'village': selected_village
-        })
+        return jsonify({'status': 'success', 'hospital': hospital, 'village': selected_village})
     else:
         return jsonify({'status': 'error', 'message': 'No hospital found for this location'})
 
@@ -198,60 +227,13 @@ def patient_update_location():
     
     new_location = request.form.get('location')
     patient_id = session['patient_id']
-    
     db.update_patient_location(patient_id, new_location)
     session['patient_location'] = new_location
-    
     return jsonify({'status': 'success', 'message': f'Location updated to {new_location}'})
 
-@app.route('/patient/update_language', methods=['POST'])
-@login_required
-def patient_update_language():
-    if session.get('user_type') != 'patient':
-        return jsonify({"error": "Unauthorized"}), 401
-    
-    language = request.form.get('language')
-    patient_id = session['patient_id']
-    
-    conn = db.get_connection()
-    cursor = conn.cursor()
-    cursor.execute("UPDATE patients SET language = ? WHERE patient_id = ?", (language, patient_id))
-    conn.commit()
-    conn.close()
-    
-    session['patient_language'] = language
-    
-    return jsonify({"status": "success", "message": f"Language updated to {language}"})
-
 # ============================================================
-# DOCTOR DASHBOARD ROUTES (ANONYMIZED - NO PATIENT NAMES)
+# DOCTOR DASHBOARD
 # ============================================================
-
-@app.route('/doctor/login', methods=['POST'])
-def doctor_login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    
-    # Check failed attempts
-    failed_count = db.get_failed_attempts(username=username)
-    if failed_count >= 5:
-        return render_template('login.html', error="Account locked. Too many failed attempts. Try again later.")
-    
-    provider = db.authenticate_provider(username, password)
-    if provider:
-        db.clear_failed_attempts(username=username)
-        session['user_type'] = 'doctor'
-        session['doctor_id'] = provider[0]
-        session['doctor_name'] = provider[3]
-        session['hospital'] = provider[5]
-        session.permanent = True
-        # Audit log
-        db.add_audit_log('doctor', username, 'login', f'Doctor {provider[3]} logged in')
-        return redirect(url_for('doctor_dashboard'))
-    
-    # Record failed attempt
-    db.record_failed_login(username=username)
-    return render_template('login.html', error="Invalid doctor credentials")
 
 @app.route('/doctor/dashboard')
 @login_required
@@ -263,19 +245,18 @@ def doctor_dashboard():
     unread_messages = db.get_unread_messages()
     emergency_alerts = db.get_emergency_alerts()
     all_messages = db.get_all_messages_for_doctor()
+    villages = db.get_all_villages()
+    current_language = session.get('doctor_language', 'English')
     
-    # ANONYMIZED patient data - NO NAMES shown to doctor
     patient_data = []
     for patient in patients:
         taken, total = db.get_adherence_stats(patient[1])
         adherence = (taken / total * 100) if total > 0 else 85
-        
         nearest_hospital = db.get_nearest_hospital(patient[5])
         
-        # Only show Patient ID, NOT name
         patient_data.append({
-            'id': patient[1],  # Only Patient ID visible
-            'phone': patient[3][-4:],  # Only last 4 digits of phone
+            'id': patient[1],
+            'phone_last4': patient[3][-4:] if patient[3] and len(patient[3]) >= 4 else '****',
             'language': patient[4],
             'location': patient[5],
             'arv_regimen': patient[6],
@@ -285,15 +266,14 @@ def doctor_dashboard():
             'hospital_distance': nearest_hospital['distance_km'] if nearest_hospital else 'N/A'
         })
     
-    villages = db.get_all_villages()
-    
     return render_template('doctor_dashboard.html',
                          patients=patient_data,
                          unread_messages=unread_messages,
                          emergency_alerts=emergency_alerts,
                          all_messages=all_messages,
                          villages=villages,
-                         session=session)
+                         session=session,
+                         language=current_language)
 
 @app.route('/doctor/send_message', methods=['POST'])
 @login_required
@@ -303,15 +283,13 @@ def doctor_send_message():
     
     patient_id = request.form.get('patient_id')
     message = request.form.get('message')
-    
     patient = db.get_patient_by_id(patient_id)
+    
     if not patient:
         return jsonify({"error": "Patient not found"}), 404
     
-    # Send message using patient_id (name never shown)
     sms_handler.send_sms(patient[3], message, patient[4])
     db.send_message_to_patient(patient_id, message, session['doctor_name'])
-    
     return jsonify({"status": "success", "message": f"Message sent to Patient {patient_id}"})
 
 @app.route('/doctor/register_patient', methods=['POST'])
@@ -322,13 +300,11 @@ def doctor_register_patient():
     
     patient_id = f"HIV{str(uuid.uuid4())[:5].upper()}"
     phone = format_phone(request.form.get('phone_number'))
-    full_name = request.form.get('full_name')  # Stored but NEVER displayed
     
     db.register_patient((
         patient_id,
-        full_name,
+        request.form.get('full_name'),
         phone,
-        request.form.get('language', 'English'),
         request.form.get('location'),
         request.form.get('arv_regimen', 'TLD'),
         request.form.get('medication_time', '20:00'),
@@ -336,9 +312,7 @@ def doctor_register_patient():
     ))
     
     welcome_msg = f"WELCOME! Your Patient ID: {patient_id}. Visit your dashboard to find nearest hospital."
-    sms_handler.send_sms(phone, welcome_msg, request.form.get('language', 'English'))
-    
-    # Audit log - name stored but not displayed anywhere
+    sms_handler.send_sms(phone, welcome_msg, 'English')
     db.add_audit_log('doctor', session.get('doctor_name', ''), 'register_patient', f'Registered patient {patient_id}')
     
     return jsonify({"status": "success", "patient_id": patient_id})
@@ -363,15 +337,12 @@ def doctor_patient_detail(patient_id):
     taken, total = db.get_adherence_stats(patient_id)
     nearest_hospital = db.get_nearest_hospital(patient[5])
     
-    # Audit log for viewing patient details - name NOT logged
     db.add_audit_log('doctor', session.get('doctor_name', ''), 'view_patient', f'Viewed patient {patient_id} details')
     
-    # Return data WITHOUT patient name
     return jsonify({
         'patient': {
-            'id': patient[1],  # Only ID shown, NO NAME
-            'phone': patient[3][-4:],  # Only last 4 digits
-            'language': patient[4],
+            'id': patient[1],
+            'phone_last4': patient[3][-4:] if patient[3] and len(patient[3]) >= 4 else '****',
             'location': patient[5],
             'arv_regimen': patient[6],
             'medication_time': patient[7]
@@ -386,7 +357,7 @@ def doctor_patient_detail(patient_id):
     })
 
 # ============================================================
-# REGISTRATION ROUTES
+# REGISTRATION & OTHER ROUTES
 # ============================================================
 
 @app.route('/register_patient', methods=['GET', 'POST'])
@@ -395,18 +366,15 @@ def register_patient():
         patient_id = f"HIV{str(uuid.uuid4())[:5].upper()}"
         phone = format_phone(request.form.get('phone_number'))
         
-        patient_data = (
+        db.register_patient((
             patient_id,
             request.form.get('full_name'),
             phone,
-            request.form.get('language', 'English'),
             request.form.get('location'),
             request.form.get('arv_regimen', 'TLD'),
             request.form.get('medication_time', '20:00'),
             datetime.now().isoformat()
-        )
-        
-        db.register_patient(patient_data)
+        ))
         
         patient = db.get_patient_by_id(patient_id)
         if patient:
@@ -416,10 +384,6 @@ def register_patient():
         return render_template('register.html', success=True, patient_id=patient_id)
     
     return render_template('register.html')
-
-# ============================================================
-# SIMULATION ROUTES
-# ============================================================
 
 @app.route('/simulate/sms')
 @login_required
@@ -440,23 +404,16 @@ def simulate_voice():
 def process_voice():
     transcribed_text = request.json.get('text', '')
     patient_phone = request.json.get('phone', None)
-    
     analysis = ai_engine.analyze_text(transcribed_text)
     
     patients = db.get_all_patients()
     for p in patients:
         if patient_phone and p[3] == patient_phone:
-            db.save_message(
-                p[1], 'incoming', 'voice', transcribed_text, p[4],
-                analysis['risk_level'], ','.join(analysis['symptoms']), analysis['response']
-            )
+            db.save_message(p[1], 'incoming', 'voice', transcribed_text, p[4],
+                          analysis['risk_level'], ','.join(analysis['symptoms']), analysis['response'])
             break
     
     return jsonify(analysis)
-
-# ============================================================
-# DEMO ROUTES
-# ============================================================
 
 @app.route('/demo/scenario2')
 def demo_scenario2():
@@ -487,7 +444,7 @@ def logout():
     return redirect(url_for('index'))
 
 # ============================================================
-# MAIN ENTRY POINT
+# MAIN
 # ============================================================
 
 if __name__ == '__main__':
@@ -495,14 +452,9 @@ if __name__ == '__main__':
     print("AFYAHIV CARE - AI-Powered Medication Adherence System")
     print("="*70)
     print("\nSystem Initialized Successfully!")
-    print("\nSECURITY FEATURE: Patient names are HIDDEN from doctors")
-    print("Patients are identified ONLY by their Patient ID (e.g., HIV001)")
-    print("\nDemo Accounts:")
+    print("\nDEMO LOGIN:")
     print("   Doctor: dr.mwangi / doctor123")
-    print("   Patient 1: HIV001 / Phone: +254712345678")
-    print("   Patient 2: HIV002 / Phone: +254723456789")
-    print("\nAccess the application at: http://localhost:5000")
-    print("\nStarting server...")
+    print("\nAccess at: http://localhost:5000")
     print("="*70 + "\n")
     
     app.run(debug=True, host='0.0.0.0', port=5000)
